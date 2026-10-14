@@ -1,0 +1,29 @@
+Actúa como un desarrollador Full Stack experto en Next.js, React, Tailwind CSS y arquitecturas escalables. Vamos a estructurar los componentes visuales y la interfaz de "Esquel Conectado", una plataforma web comunitaria y turística.
+
+Contexto y Stack Tecnológico:
+Framework: Next.js (App Router) con TypeScript.
+Iconos: Obligatorio usar la librería react-icons/fc (Flat Color Icons) para replicar un diseño colorido y amigable (ej. FcShop, FcBriefcase, FcCalendar, FcVip).
+
+Mapa: Integración con react-leaflet y leaflet.
+
+Base de Datos (Transicional): Por ahora usaremos Local Storage, pero es un requerimiento estricto que la lógica de acceso a datos esté abstraída en un servicio (Service Pattern) para que la futura migración a Appwrite requiera modificar solo el servicio y no los componentes de React.
+
+Diseño y Paleta de Colores (Estricto): La interfaz debe ser luminosa, limpia y profesional, calcando este esquema:
+Fondo general: Gris/azulado muy claro (bg-slate-50).
+Color Principal (Botones, Textos clave): Azul vibrante (text-blue-600, bg-blue-500, hover:bg-blue-600).
+Color Secundario/Acento: Verde brillante (bg-green-500) para el botón de "Mi Cuenta" y resaltados.
+Tarjetas y Contenedores: Fondo blanco (bg-white), bordes redondeados (rounded-xl), sombras suaves (shadow-md).
+Texto: Gris oscuro (text-slate-700).
+Por favor, diséñame la arquitectura y el código base para la página de inicio (app/page.tsx y sus componentes). Crea los siguientes elementos:
+
+1. Capa de Servicios de Datos (services/database.ts): Crea un servicio que simule llamadas asíncronas para obtener datos (categorías, eventos, ubicaciones del mapa y empleos). Implementa funciones como getEvents(), getLocations(), y toggleFavoriteLocation(userId, locationId). Toda la persistencia debe ir a Local Storage, pero la firma de las funciones debe estar lista para recibir promesas de Appwrite en el futuro.
+
+2. Barra de Navegación (Navbar.tsx): Fondo blanco, sombra sutil. A la izquierda: un logo simulado con el texto "Esquel Conectado" (usa un icono representativo de montañas). En el centro: enlaces (Inicio, Servicios, Eventos, Empleos). A la derecha: un botón verde con bordes redondeados que diga "Mi Cuenta" (bg-green-500 text-white).
+
+3. Sección Hero (HeroSection.tsx): Contenedor ancho con imagen de fondo difuminada (usa bg-cover y un overlay claro). Título central en azul "Bienvenidos a Esquel Conectado" y subtítulo "Tu guía de la ciudad de Esquel". Debajo, un grid de 4 tarjetas blancas. Usa íconos de react-icons/fc bien grandes para cada una: Comercios (FcShop), Técnicos (FcSupport), Próximos Eventos (FcCalendar), Ofertas de Empleo (FcBriefcase).
+
+4. Sección Media: Calendario y Mapa (MidSection.tsx): Layout de dos columnas (grid md:grid-cols-2 gap-8).
+Izquierda (Calendario): Tarjeta blanca "Calendario de Eventos". Simula una grilla mensual, resalta el día actual en verde. Debajo, lista los eventos del día ("Feria de Artesanos 10:00 AM - Plaza San Martin") y un botón azul de ancho completo "Ver más eventos".
+Derecha (Mapa con Leaflet): Tarjeta blanca "Mapa de la Ciudad". Incluye un input de búsqueda arriba. Debajo, integra un componente de react-leaflet centrado en las coordenadas de Esquel, Chubut. Agrega 2 marcadores de prueba (ej. "Don Chiquino", "Cafe Patagonia") usando las ubicaciones traídas del servicio de datos. Incluye un botón flotante superpuesto en el mapa que diga "Mis Favoritos" (con un ícono FcRating).
+
+5. Sección Inferior: Ofertas de Empleo (JobBoard.tsx): Título "Ofertas de Empleo". Grid de 3 columnas (md:grid-cols-3). Cada tarjeta representa un trabajo (Cajero/a, Vendedor/a, Técnico de PC) con un espacio simulado para la foto del local, título en negrita, nombre del local y un botón azul abajo para "Ver todas las ofertas".

@@ -1,0 +1,242 @@
+"use client";
+
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { FcLandscape } from "react-icons/fc";
+import { dbService } from "../services/database";
+import { useLanguage } from "@/context/LanguageContext";
+
+export default function Navbar() {
+  const [showCities, setShowCities] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { language, toggleLanguage, t } = useLanguage();
+  const cities = ["Esquel", "Trevelin", "Lago Puelo", "El Bolsón", "El Hoyo", "Epuyén", "Cholila", "El Maitén"];
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+      setIsDarkMode(true);
+    }
+  };
+
+  return (
+    <nav className="bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          {/* Logo institucional */}
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-700 group-hover:bg-blue-100 transition-colors">
+              <FcLandscape className="text-2xl" />
+            </div>
+            <div className="flex flex-col">
+              <span translate="no" className="notranslate font-extrabold text-xl tracking-tight text-blue-700 leading-tight">
+                Esquel <span className="text-sky-500 font-medium">Conectado</span>
+              </span>
+              <span className="text-[10px] uppercase tracking-wider text-slate-600 font-semibold">
+                {t("nav.portalSubtitle")}
+              </span>
+            </div>
+          </Link>
+
+          {/* 5 Accesos Principales (Desktop) */}
+          <div className="hidden md:flex items-center space-x-7">
+            <Link
+              href="/"
+              className="text-slate-700 hover:text-blue-700 font-medium transition-colors"
+            >
+              {t("nav.home")}
+            </Link>
+            <Link
+              href="/empleos"
+              className="text-slate-700 hover:text-blue-700 font-medium transition-colors"
+            >
+              {t("nav.jobs")}
+            </Link>
+            <Link
+              href="/eventos"
+              className="text-slate-700 hover:text-blue-700 font-medium transition-colors"
+            >
+              {t("nav.events")}
+            </Link>
+
+            {/* Dropdown Ciudades */}
+            <div className="relative">
+              <button
+                onClick={() => setShowCities(!showCities)}
+                className="text-slate-700 hover:text-blue-700 font-medium transition-colors flex items-center gap-1.5 focus:outline-none"
+              >
+                {t("nav.cities")}
+                <svg className={`w-4 h-4 transition-transform duration-200 ${showCities ? 'rotate-180 text-blue-700' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {showCities && (
+                <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-xl shadow-xl py-2 border border-slate-100 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="px-3 py-1.5 text-xs font-semibold text-slate-600 uppercase tracking-wider border-b border-slate-100 mb-1">
+                    {t("nav.regionTag")}
+                  </div>
+                  {cities.map(city => (
+                    <Link
+                      key={city}
+                      href={`/empleos?city=${encodeURIComponent(city)}`}
+                      className="block px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+                      onClick={() => setShowCities(false)}
+                    >
+                      {city}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/comercios"
+              className="text-slate-700 hover:text-blue-700 font-medium transition-colors"
+            >
+              {t("nav.businesses")}
+            </Link>
+
+            <Link
+              href="/hospedajes"
+              className="text-slate-700 hover:text-blue-700 font-medium transition-colors font-bold text-blue-700"
+            >
+              🏡 {t("nav.accommodations")}
+            </Link>
+
+            <Link
+              href="/clima"
+              className="text-slate-700 hover:text-blue-700 font-medium transition-colors font-bold text-sky-600 dark:text-sky-400"
+            >
+              🌤️ {t("nav.weather")}
+            </Link>
+          </div>
+
+          {/* Botón Selector de Idioma, Switch Modo Oscuro / Claro, Mi Cuenta & Toggle Móvil */}
+          <div className="flex items-center gap-2.5">
+            {/* Selector de Idioma */}
+            <button
+              onClick={toggleLanguage}
+              className="p-2 px-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-sky-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-sm cursor-pointer flex items-center justify-center text-xs font-extrabold gap-1"
+              title={language === "es" ? "Switch to English" : "Cambiar a Español"}
+            >
+              <span>{language === "es" ? "🇪🇸 ES" : "🇬🇧 EN"}</span>
+            </button>
+
+            {/* Switch Modo Oscuro / Claro */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-sm cursor-pointer flex items-center justify-center text-xs font-extrabold"
+              title={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
+            >
+              {isDarkMode ? "☀️ " + t("common.lightMode") : "🌙 " + t("common.darkMode")}
+            </button>
+
+            <Link
+              href={dbService.getCurrentUser() ? "/perfil" : "/login"}
+              className="bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-xl font-bold text-sm shadow-sm hover:shadow transition-all duration-150 active:scale-95"
+            >
+              {dbService.getCurrentUser() ? t("nav.myProfile") : t("nav.login")}
+            </Link>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg text-slate-600 hover:text-blue-700 hover:bg-slate-100 focus:outline-none"
+              aria-label="Menú principal"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Menú Móvil */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
+          <Link
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium"
+          >
+            {t("nav.home")}
+          </Link>
+          <Link
+            href="/empleos"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium"
+          >
+            {t("nav.jobs")}
+          </Link>
+          <Link
+            href="/eventos"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium"
+          >
+            {t("nav.events")}
+          </Link>
+          <Link
+            href="/comercios"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium"
+          >
+            {t("nav.businesses")}
+          </Link>
+          <Link
+            href="/hospedajes"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-lg text-blue-700 hover:bg-blue-50 font-bold"
+          >
+            🏡 {t("nav.accommodations")}
+          </Link>
+          <Link
+            href="/clima"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 rounded-lg text-sky-600 hover:bg-sky-50 font-bold"
+          >
+            🌤️ {t("nav.weather")}
+          </Link>
+          <div className="pt-2 border-t border-slate-100">
+            <span className="block px-3 py-1 text-xs font-semibold text-slate-600 uppercase tracking-wider">
+              {t("nav.regionTag")}
+            </span>
+            <div className="grid grid-cols-2 gap-1 mt-1">
+              {cities.map(city => (
+                <Link
+                  key={city}
+                  href={`/empleos?city=${encodeURIComponent(city)}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3 py-1.5 text-sm text-slate-600 hover:text-blue-700"
+                >
+                  {city}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+}

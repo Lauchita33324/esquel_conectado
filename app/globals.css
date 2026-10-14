@@ -1,0 +1,161 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f0f9ff;
+  --foreground: #1e293b;
+}
+
+.dark {
+  --background: #090d16;
+  --foreground: #f1f5f9;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 35%, #f8fafc 70%, #e0f2fe 100%);
+  background-attachment: fixed;
+  color: #1e293b;
+  font-family: var(--font-geist-sans), sans-serif;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ========================================================
+   MODO OSCURO (DARK MODE) - ALTO CONTRASTE GARANTIZADO
+   ======================================================== */
+html.dark body,
+.dark body {
+  background: linear-gradient(180deg, #070a12 0%, #0f172a 40%, #020617 80%, #0b1329 100%) !important;
+  background-attachment: fixed !important;
+  color: #f1f5f9 !important;
+}
+
+/* Encabezado Navbar en Modo Oscuro */
+.dark nav {
+  background-color: #0f172a !important;
+  border-bottom: 1px solid #1e293b !important;
+}
+
+.dark nav a,
+.dark nav button,
+.dark nav span {
+  color: #f8fafc !important;
+}
+
+.dark nav a:hover,
+.dark nav button:hover {
+  color: #38bdf8 !important;
+}
+
+/* Contenedores de Tarjetas, Cajas de Filtros y Modales */
+.dark .bg-white,
+.dark .bg-slate-50,
+.dark .bg-blue-50,
+.dark .bg-sky-50,
+.dark div[class*="bg-blue-50"],
+.dark div[class*="bg-sky-50"],
+.dark label[class*="bg-sky-50"],
+.dark .bg-\[\#faf7f2\],
+.dark div[class*="bg-[#faf7f2]"],
+.dark div[class*="from-white"] {
+  background-color: #0f172a !important;
+  background-image: none !important;
+  color: #f8fafc !important;
+  border-color: #1e293b !important;
+}
+
+.dark .bg-red-50,
+.dark button[class*="bg-red-50"] {
+  background-color: #450a0a !important;
+  color: #fca5a5 !important;
+  border-color: #7f1d1d !important;
+}
+
+/* Formularios: Inputs, Selects y Textareas */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+  border-color: #334155 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+.dark select option {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+/* Textos, Títulos y Subtítulos en Modo Oscuro */
+.dark p,
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark label {
+  color: #f8fafc !important;
+}
+
+.dark .text-slate-900,
+.dark .text-slate-800,
+.dark .text-slate-700,
+.dark .text-blue-950,
+.dark .text-blue-900,
+.dark .text-blue-800 {
+  color: #f8fafc !important;
+}
+
+.dark .text-slate-600,
+.dark .text-slate-500,
+.dark .text-slate-400 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-blue-700,
+.dark .text-blue-600 {
+  color: #38bdf8 !important;
+}
+
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border-slate-300,
+.dark .border-blue-100,
+.dark .border-sky-200,
+.dark .border-\[\#e8dfd2\] {
+  border-color: #1e293b !important;
+}
+
+/* Difuminación de Imágenes de Portada en Modo Oscuro */
+.dark .from-slate-50 {
+  --tw-gradient-from: #0b101d !important;
+  --tw-gradient-to: rgb(11 16 29 / 0) !important;
+}
+
+/* Ocultar barra y avisos flotantes del motor de traducción */
+.goog-te-banner-frame,
+iframe.goog-te-banner-frame,
+.goog-te-balloon-frame {
+  display: none !important;
+}
+body {
+  top: 0px !important;
+}
+.skiptranslate {
+  display: none !important;
+}
+#google_translate_element {
+  display: none !important;
+}
