@@ -143,19 +143,3 @@ html.dark body,
   --tw-gradient-from: #0b101d !important;
   --tw-gradient-to: rgb(11 16 29 / 0) !important;
 }
-
-/* Ocultar barra y avisos flotantes del motor de traducción */
-.goog-te-banner-frame,
-iframe.goog-te-banner-frame,
-.goog-te-balloon-frame {
-  display: none !important;
-}
-body {
-  top: 0px !important;
-}
-.skiptranslate {
-  display: none !important;
-}
-#google_translate_element {
-  display: none !important;
-}

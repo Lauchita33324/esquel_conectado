@@ -6,7 +6,6 @@ import Navbar from "../../components/Navbar";
 import Modal from "../../components/Modal";
 import Captcha from "../../components/Captcha";
 import { dbService, Accommodation } from "../../services/database";
-import { useLanguage } from "@/context/LanguageContext";
 
 // Importación dinámica del Mapa de Rutas para evitar fallos de SSR en Leaflet
 const EventRouteMap = dynamic(() => import("../../components/EventRouteMap"), {
@@ -19,7 +18,6 @@ const EventRouteMap = dynamic(() => import("../../components/EventRouteMap"), {
 });
 
 export default function HospedajesPage() {
-  const { t } = useLanguage();
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -204,10 +202,10 @@ export default function HospedajesPage() {
               🏔️ Turismo & Alojamiento Comarcal
             </span>
             <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              {t("hospedajes.title")}
+              Dónde Hospedarse en cada Ciudad
             </h1>
             <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base mt-1.5 font-medium max-w-3xl">
-              {t("hospedajes.subtitle")}
+              Descubrí hoteles, hosterías, cabañas alpinas, hostels y glampings en Esquel y la Comarca Andina
             </p>
           </div>
 
@@ -215,7 +213,7 @@ export default function HospedajesPage() {
             onClick={() => setIsPublishModalOpen(true)}
             className="self-start md:self-auto bg-blue-700 hover:bg-blue-800 text-white font-extrabold px-5 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-150 active:scale-95 text-xs sm:text-sm flex items-center gap-2 cursor-pointer"
           >
-            <span>🏡</span> {t("hospedajes.publishBtn")}
+            <span>🏡</span> + Publicar Hospedaje
           </button>
         </div>
 
@@ -268,7 +266,7 @@ export default function HospedajesPage() {
                 type="text"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                placeholder={t("hospedajes.searchPlaceholder")}
+                placeholder="Nombre del alojamiento, barrio o servicio..."
                 className="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 font-medium"
               />
             </div>
@@ -276,7 +274,7 @@ export default function HospedajesPage() {
             {/* Tipo de Hospedaje */}
             <div>
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5 block">
-                {t("hospedajes.typeLabel")}
+                Tipo de Alojamiento
               </label>
               <select
                 value={selectedType}
@@ -292,7 +290,7 @@ export default function HospedajesPage() {
             {/* Rango de Precio */}
             <div>
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5 block">
-                {t("hospedajes.priceLabel")}
+                Rango de Precio
               </label>
               <select
                 value={selectedPrice}
@@ -330,7 +328,7 @@ export default function HospedajesPage() {
           </div>
         ) : accommodations.length === 0 ? (
           <div className="bg-white dark:bg-slate-900 rounded-2xl p-12 text-center border border-slate-200 dark:border-slate-800 shadow-sm">
-            <p className="text-lg font-bold text-slate-800 dark:text-slate-100">{t("hospedajes.noAccommodationsFound")}</p>
+            <p className="text-lg font-bold text-slate-800 dark:text-slate-100">No encontramos hospedajes con los filtros seleccionados.</p>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Intenta ajustando la ciudad, el tipo de hospedaje o el rango de precio.</p>
             <button
               onClick={handleClearFilters}
@@ -398,7 +396,7 @@ export default function HospedajesPage() {
                     onClick={() => setSelectedAcc(acc)}
                     className="w-full bg-blue-700 hover:bg-blue-800 text-white font-extrabold py-2.5 px-4 rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wide cursor-pointer active:scale-95"
                   >
-                    {t("hospedajes.viewMapRoute")}
+                    🗺️ Ver Ubicación y Ruta GPS
                   </button>
 
                   <div className="flex gap-2">
@@ -409,7 +407,7 @@ export default function HospedajesPage() {
                         rel="noopener noreferrer"
                         className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-2 px-3 rounded-xl text-xs transition-all text-center border border-emerald-500 flex items-center justify-center gap-1 shadow-xs active:scale-95"
                       >
-                        <span>{t("hospedajes.contactWhatsApp")}</span>
+                        <span>💬 WhatsApp Directo</span>
                       </a>
                     )}
                     {acc.website && (

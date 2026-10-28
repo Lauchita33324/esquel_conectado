@@ -4,13 +4,11 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FcLandscape } from "react-icons/fc";
 import { dbService } from "../services/database";
-import { useLanguage } from "@/context/LanguageContext";
 
 export default function Navbar() {
   const [showCities, setShowCities] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const { language, toggleLanguage, t } = useLanguage();
   const cities = ["Esquel", "Trevelin", "Lago Puelo", "El Bolsón", "El Hoyo", "Epuyén", "Cholila", "El Maitén"];
 
   useEffect(() => {
@@ -46,11 +44,11 @@ export default function Navbar() {
               <FcLandscape className="text-2xl" />
             </div>
             <div className="flex flex-col">
-              <span translate="no" className="notranslate font-extrabold text-xl tracking-tight text-blue-700 leading-tight">
+              <span className="font-extrabold text-xl tracking-tight text-blue-700 leading-tight">
                 Esquel <span className="text-sky-500 font-medium">Conectado</span>
               </span>
-              <span className="text-[10px] uppercase tracking-wider text-slate-600 font-semibold">
-                {t("nav.portalSubtitle")}
+              <span className="hidden sm:block text-[10px] uppercase tracking-wider text-slate-600 font-semibold">
+                Portal Comarcal
               </span>
             </div>
           </Link>
@@ -61,19 +59,19 @@ export default function Navbar() {
               href="/"
               className="text-slate-700 hover:text-blue-700 font-medium transition-colors"
             >
-              {t("nav.home")}
+              Inicio
             </Link>
             <Link
               href="/empleos"
               className="text-slate-700 hover:text-blue-700 font-medium transition-colors"
             >
-              {t("nav.jobs")}
+              Empleos
             </Link>
             <Link
               href="/eventos"
               className="text-slate-700 hover:text-blue-700 font-medium transition-colors"
             >
-              {t("nav.events")}
+              Eventos
             </Link>
 
             {/* Dropdown Ciudades */}
@@ -82,7 +80,7 @@ export default function Navbar() {
                 onClick={() => setShowCities(!showCities)}
                 className="text-slate-700 hover:text-blue-700 font-medium transition-colors flex items-center gap-1.5 focus:outline-none"
               >
-                {t("nav.cities")}
+                Ciudades
                 <svg className={`w-4 h-4 transition-transform duration-200 ${showCities ? 'rotate-180 text-blue-700' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
@@ -90,7 +88,7 @@ export default function Navbar() {
               {showCities && (
                 <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-xl shadow-xl py-2 border border-slate-100 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                   <div className="px-3 py-1.5 text-xs font-semibold text-slate-600 uppercase tracking-wider border-b border-slate-100 mb-1">
-                    {t("nav.regionTag")}
+                    Comarca Andina
                   </div>
                   {cities.map(city => (
                     <Link
@@ -110,49 +108,43 @@ export default function Navbar() {
               href="/comercios"
               className="text-slate-700 hover:text-blue-700 font-medium transition-colors"
             >
-              {t("nav.businesses")}
+              Refugios/Comercios
             </Link>
 
             <Link
               href="/hospedajes"
               className="text-slate-700 hover:text-blue-700 font-medium transition-colors font-bold text-blue-700"
             >
-              🏡 {t("nav.accommodations")}
+              🏡 Hospedajes
             </Link>
 
             <Link
               href="/clima"
               className="text-slate-700 hover:text-blue-700 font-medium transition-colors font-bold text-sky-600 dark:text-sky-400"
             >
-              🌤️ {t("nav.weather")}
+              🌤️ Clima / Rutas
             </Link>
           </div>
 
-          {/* Botón Selector de Idioma, Switch Modo Oscuro / Claro, Mi Cuenta & Toggle Móvil */}
-          <div className="flex items-center gap-2.5">
-            {/* Selector de Idioma */}
-            <button
-              onClick={toggleLanguage}
-              className="p-2 px-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-sky-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-sm cursor-pointer flex items-center justify-center text-xs font-extrabold gap-1"
-              title={language === "es" ? "Switch to English" : "Cambiar a Español"}
-            >
-              <span>{language === "es" ? "🇪🇸 ES" : "🇬🇧 EN"}</span>
-            </button>
-
+          {/* Switch Modo Oscuro / Claro, Mi Cuenta & Toggle Móvil */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             {/* Switch Modo Oscuro / Claro */}
             <button
               onClick={toggleTheme}
-              className="p-2 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-sm cursor-pointer flex items-center justify-center text-xs font-extrabold"
+              className="p-1.5 sm:p-2 px-2.5 sm:px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-sm cursor-pointer flex items-center justify-center text-xs font-extrabold"
               title={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
             >
-              {isDarkMode ? "☀️ " + t("common.lightMode") : "🌙 " + t("common.darkMode")}
+              <span>{isDarkMode ? "☀️" : "🌙"}</span>
+              <span className="hidden sm:inline ml-1.5">
+                {isDarkMode ? "Claro" : "Oscuro"}
+              </span>
             </button>
 
             <Link
               href={dbService.getCurrentUser() ? "/perfil" : "/login"}
-              className="bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-xl font-bold text-sm shadow-sm hover:shadow transition-all duration-150 active:scale-95"
+              className="bg-blue-700 hover:bg-blue-800 text-white px-3 sm:px-5 py-1.5 sm:py-2 rounded-xl font-bold text-xs sm:text-sm shadow-sm hover:shadow transition-all duration-150 active:scale-95 whitespace-nowrap"
             >
-              {dbService.getCurrentUser() ? t("nav.myProfile") : t("nav.login")}
+              {dbService.getCurrentUser() ? "Mi Perfil" : "Ingresar"}
             </Link>
 
             {/* Mobile Hamburger Button */}
@@ -181,46 +173,46 @@ export default function Navbar() {
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium"
           >
-            {t("nav.home")}
+            Inicio
           </Link>
           <Link
             href="/empleos"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium"
           >
-            {t("nav.jobs")}
+            Empleos
           </Link>
           <Link
             href="/eventos"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium"
           >
-            {t("nav.events")}
+            Eventos
           </Link>
           <Link
             href="/comercios"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium"
           >
-            {t("nav.businesses")}
+            Refugios/Comercios
           </Link>
           <Link
             href="/hospedajes"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-lg text-blue-700 hover:bg-blue-50 font-bold"
           >
-            🏡 {t("nav.accommodations")}
+            🏡 Hospedajes
           </Link>
           <Link
             href="/clima"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-lg text-sky-600 hover:bg-sky-50 font-bold"
           >
-            🌤️ {t("nav.weather")}
+            🌤️ Clima / Rutas
           </Link>
           <div className="pt-2 border-t border-slate-100">
             <span className="block px-3 py-1 text-xs font-semibold text-slate-600 uppercase tracking-wider">
-              {t("nav.regionTag")}
+              Comarca Andina
             </span>
             <div className="grid grid-cols-2 gap-1 mt-1">
               {cities.map(city => (
