@@ -165,8 +165,8 @@ export default function MidSection() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-      <div className="grid md:grid-cols-2 gap-8 h-auto lg:h-[620px]">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14">
+      <div className="grid md:grid-cols-2 gap-6 sm:gap-8 h-auto lg:h-[620px]">
 
         {/* Columna Izquierda: Calendario */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 flex flex-col p-4 sm:p-6 h-full">
@@ -351,7 +351,7 @@ export default function MidSection() {
         </div>
 
         {/* Columna Derecha: Mapa */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-6 h-[500px] md:h-full flex flex-col relative">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-6 h-[400px] sm:h-[480px] md:h-full flex flex-col relative">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Mapa de la Ciudad</h2>
             <span className="text-xs font-semibold px-2.5 py-1 bg-sky-50 text-sky-700 rounded-full border border-sky-100 shrink-0">
@@ -365,7 +365,7 @@ export default function MidSection() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Buscar calle o lugar (ej: Sáenz Peña 12, Ameghino)..."
-              className="flex-grow min-w-0 bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:bg-white transition-all text-sm font-medium"
+              className="flex-grow min-w-0 bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:bg-white transition-all text-xs sm:text-sm font-medium"
             />
             <button
               type="submit"
@@ -388,9 +388,9 @@ export default function MidSection() {
           <div className="flex-grow rounded-xl overflow-hidden border border-slate-200 relative z-0">
             <MapComponent center={mapCenter} searchQuery={searchQuery} searchMarker={searchMarker} />
 
-            <button className="absolute bottom-4 right-4 z-[400] bg-white/95 backdrop-blur-sm border border-slate-200 shadow-md rounded-xl px-4 py-2 flex items-center gap-2 hover:bg-slate-50 transition-colors">
-              <FcRating className="text-lg" />
-              <span className="font-bold text-slate-800 text-xs">Puntos de Interés</span>
+            <button className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-[400] bg-white/95 backdrop-blur-sm border border-slate-200 shadow-md rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 flex items-center gap-1.5 sm:gap-2 hover:bg-slate-50 transition-colors">
+              <FcRating className="text-base sm:text-lg" />
+              <span className="font-bold text-slate-800 text-[11px] sm:text-xs">Puntos de Interés</span>
             </button>
           </div>
         </div>
@@ -442,10 +442,10 @@ export default function MidSection() {
               <p className="text-sm"><strong>Lugar:</strong> {selectedEvent.locationName}{selectedEvent.city ? ` (${selectedEvent.city})` : ""}</p>
               <p className="text-sm leading-relaxed pt-1 border-t border-slate-200/60"><strong>Detalle:</strong> {selectedEvent.description}</p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
               <button
                 onClick={() => handleVerEnMapa(selectedEvent.lat, selectedEvent.lng)}
-                className="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow-sm transition-colors text-sm"
+                className="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 sm:py-3 rounded-xl shadow-xs transition-colors text-xs sm:text-sm"
               >
                 Ver en Mapa
               </button>
@@ -462,7 +462,7 @@ export default function MidSection() {
                     alert("Tu navegador no soporta geolocalización.");
                   }
                 }}
-                className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl shadow-sm transition-colors text-sm"
+                className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 sm:py-3 rounded-xl shadow-xs transition-colors text-xs sm:text-sm"
               >
                 ¿Cómo llegar?
               </button>

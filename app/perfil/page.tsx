@@ -74,10 +74,10 @@ export default function PerfilPage() {
   return (
     <main className="flex flex-col min-h-screen bg-slate-50">
       <Navbar />
-      <div className="flex-grow max-w-5xl mx-auto px-4 py-12 w-full">
-        
+      <div className="flex-grow max-w-5xl mx-auto px-4 py-8 sm:py-12 w-full">
+
         {/* Cabecera Perfil */}
-        <div className="bg-gradient-to-r from-white via-sky-50/40 to-blue-50/20 rounded-3xl shadow-md p-8 border border-sky-100 mb-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="bg-gradient-to-r from-white via-sky-50/40 to-blue-50/20 rounded-3xl shadow-md p-5 sm:p-8 border border-sky-100 mb-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
             <div className="relative group">
               <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-sky-400 rounded-full flex items-center justify-center text-3xl font-extrabold text-white shadow-md overflow-hidden border-2 border-white ring-4 ring-sky-100">
@@ -104,7 +104,7 @@ export default function PerfilPage() {
 
             <div>
               <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
-                <h1 className="text-3xl font-extrabold text-slate-800">{user.name}</h1>
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800">{user.name}</h1>
                 {user.role === "Empleador" && (
                   <span className="text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-200 inline-flex items-center gap-1">
                     🏢 {user.companyName ? `Empresa: ${user.companyName}` : "Perfil Empleador"}
@@ -112,7 +112,7 @@ export default function PerfilPage() {
                 )}
               </div>
               <p className="text-slate-500 font-medium">{user.email}</p>
-              
+
               <label
                 htmlFor="avatar-input"
                 className="inline-flex items-center gap-1.5 mt-2.5 px-3 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-bold rounded-lg border border-sky-200 cursor-pointer transition-colors"
@@ -122,7 +122,7 @@ export default function PerfilPage() {
             </div>
           </div>
 
-          <button 
+          <button
             onClick={handleLogout}
             className="bg-red-50 text-red-600 hover:bg-red-100 px-6 py-2.5 rounded-xl font-bold transition-colors shadow-sm text-sm"
           >
@@ -131,7 +131,7 @@ export default function PerfilPage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          
+
           {/* Sección: Mis Empleos Publicados */}
           <section>
             <div className="flex justify-between items-center mb-6">

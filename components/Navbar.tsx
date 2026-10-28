@@ -55,15 +55,15 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-14 sm:h-16 items-center">
           {/* Logo institucional */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-700 group-hover:bg-blue-100 transition-colors">
-              <FcLandscape className="text-2xl" />
+          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-700 group-hover:bg-blue-100 transition-colors shrink-0">
+              <FcLandscape className="text-xl sm:text-2xl" />
             </div>
-            <div className="flex flex-col">
-              <span className="font-extrabold text-xl tracking-tight text-blue-700 leading-tight">
+            <div className="flex flex-col min-w-0">
+              <span className="font-extrabold text-base sm:text-xl tracking-tight text-blue-700 leading-tight truncate">
                 Esquel <span className="text-sky-500 font-medium">Conectado</span>
               </span>
               <span className="hidden sm:block text-[10px] uppercase tracking-wider text-slate-600 font-semibold">
@@ -146,11 +146,11 @@ export default function Navbar() {
           </div>
 
           {/* Switch Modo Oscuro / Claro, Mi Cuenta & Toggle Móvil */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5">
+          <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
             {/* Switch Modo Oscuro / Claro */}
             <button
               onClick={toggleTheme}
-              className="p-1.5 sm:p-2 px-2.5 sm:px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-sm cursor-pointer flex items-center justify-center text-xs font-extrabold"
+              className="p-1.5 sm:p-2 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-xs cursor-pointer flex items-center justify-center text-xs font-extrabold"
               title={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
               aria-label={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
             >
@@ -162,7 +162,7 @@ export default function Navbar() {
 
             <Link
               href={dbService.getCurrentUser() ? "/perfil" : "/login"}
-              className="bg-blue-700 hover:bg-blue-800 text-white px-3 sm:px-5 py-1.5 sm:py-2 rounded-xl font-bold text-xs sm:text-sm shadow-sm hover:shadow transition-all duration-150 active:scale-95 whitespace-nowrap"
+              className="bg-blue-700 hover:bg-blue-800 text-white px-2.5 sm:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm shadow-xs hover:shadow transition-all duration-150 active:scale-95 whitespace-nowrap"
             >
               {dbService.getCurrentUser() ? "Mi Perfil" : "Ingresar"}
             </Link>
@@ -170,10 +170,10 @@ export default function Navbar() {
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-slate-600 hover:text-blue-700 hover:bg-slate-100 focus:outline-none"
+              className="md:hidden p-1.5 sm:p-2 rounded-lg text-slate-600 hover:text-blue-700 hover:bg-slate-100 focus:outline-none cursor-pointer"
               aria-label="Menú principal"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {mobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (

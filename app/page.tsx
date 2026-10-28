@@ -26,7 +26,7 @@ export default function Home() {
       </main>
 
       {/* Footer Institucional */}
-      <footer className="bg-white border-t border-slate-200 py-10 mt-16">
+      <footer className="bg-white border-t border-slate-200 py-8 sm:py-10 mt-8 sm:mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
           <div className="flex flex-col">
             <span className="font-extrabold text-lg text-blue-700">

@@ -42,7 +42,7 @@ function EmpleosContent() {
   return (
     <div className="flex-grow w-full">
       {cityData && (
-        <div id={`ciudades-${city}`} className="relative w-full py-64 mb-24 overflow-hidden">
+        <div id={`ciudades-${city}`} className="relative w-full py-16 sm:py-28 md:py-40 mb-8 sm:mb-16 overflow-hidden">
           {/* Background con overlay celeste */}
           <div
             className="absolute inset-0 bg-cover bg-bottom opacity-100 select-none pointer-events-none"
@@ -57,8 +57,8 @@ function EmpleosContent() {
           <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-slate-50 dark:from-[#0b101d] via-slate-50/60 dark:via-[#0b101d]/60 to-transparent pointer-events-none"></div>
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-5xl font-extrabold text-white drop-shadow-xl mb-2">{cityData.title}</h1>
-            <p className="text-white text-xl font-bold drop-shadow-lg opacity-90">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white drop-shadow-xl mb-2">{cityData.title}</h1>
+            <p className="text-white text-base sm:text-xl font-bold drop-shadow-lg opacity-90">
               {cityData.subtitle}
             </p>
           </div>

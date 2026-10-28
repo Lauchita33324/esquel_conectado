@@ -87,8 +87,8 @@ export default function RegistroPage() {
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800">
       <Navbar />
 
-      <main className="flex-grow flex items-center justify-center px-4 py-12">
-        <div className="bg-white rounded-2xl shadow-lg border border-slate-200/90 w-full max-w-lg p-8 md:p-10">
+      <main className="flex-grow flex items-center justify-center px-4 py-8 sm:py-12">
+        <div className="bg-white rounded-2xl shadow-lg border border-slate-200/90 w-full max-w-lg p-5 sm:p-8 md:p-10">
           {/* Encabezado del Formulario */}
           <div className="text-center mb-6">
             <span className="text-xs uppercase tracking-wider font-extrabold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-100 inline-block mb-3">

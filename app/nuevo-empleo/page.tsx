@@ -116,13 +116,13 @@ export default function NuevoEmpleoPage() {
     <main className="flex flex-col min-h-screen bg-slate-50">
       <Navbar />
       
-      <div className="flex-grow max-w-3xl mx-auto px-4 py-10 w-full">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+      <div className="flex-grow max-w-3xl mx-auto px-4 py-6 sm:py-10 w-full">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 md:p-8">
           <div className="border-b border-slate-100 pb-5 mb-6">
             <span className="text-xs uppercase tracking-wider font-extrabold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-100 inline-block mb-2">
               Sección Empleadores
             </span>
-            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Publicar Nueva Búsqueda Laboral
             </h1>
             <p className="text-slate-600 text-sm mt-1.5 font-medium">

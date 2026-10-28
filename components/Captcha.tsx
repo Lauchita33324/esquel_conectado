@@ -1,33 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface CaptchaProps {
   onValidate: (isValid: boolean) => void;
   error?: string | null;
 }
 
+function createRandomCaptcha() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "";
+  for (let i = 0; i < 5; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+}
+
 export default function Captcha({ onValidate, error }: CaptchaProps) {
-  const [captchaCode, setCaptchaCode] = useState("");
+  const [captchaCode, setCaptchaCode] = useState(() => createRandomCaptcha());
   const [userInput, setUserInput] = useState("");
   const [isVerified, setIsVerified] = useState(false);
 
   // Genera un código alfanumérico legible de 5 caracteres
   const generateCaptcha = () => {
-    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    let code = "";
-    for (let i = 0; i < 5; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    setCaptchaCode(code);
+    setCaptchaCode(createRandomCaptcha());
     setUserInput("");
     setIsVerified(false);
     onValidate(false);
   };
-
-  useEffect(() => {
-    generateCaptcha();
-  }, []);
 
   const handleInputChange = (val: string) => {
     const cleanVal = val.toUpperCase().trim();
@@ -65,9 +65,9 @@ export default function Captcha({ onValidate, error }: CaptchaProps) {
       </div>
 
       {/* Contenedor del código visual protegido */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
         <div 
-          className="flex-shrink-0 bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 px-4 py-2.5 rounded-xl text-white font-mono text-xl font-extrabold tracking-widest select-none shadow-inner border border-blue-950 flex items-center gap-1.5"
+          className="flex-shrink-0 bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 px-4 py-2 sm:py-2.5 rounded-xl text-white font-mono text-lg sm:text-xl font-extrabold tracking-widest select-none shadow-inner border border-blue-950 flex items-center justify-center gap-1.5"
           style={{ letterSpacing: "0.25em" }}
           aria-label={`Código de seguridad: ${captchaCode.split("").join(" ")}`}
         >
@@ -85,7 +85,7 @@ export default function Captcha({ onValidate, error }: CaptchaProps) {
           ))}
         </div>
 
-        <div className="flex-grow relative">
+        <div className="flex-grow min-w-0 relative">
           <input
             type="text"
             required
