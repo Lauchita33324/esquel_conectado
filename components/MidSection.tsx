@@ -165,11 +165,11 @@ export default function MidSection() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14">
-      <div className="grid md:grid-cols-2 gap-6 sm:gap-8 h-auto lg:h-[620px]">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch md:min-h-[560px] lg:h-[600px] xl:h-[620px] max-h-[85vh]">
 
         {/* Columna Izquierda: Calendario */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 flex flex-col p-4 sm:p-6 h-full">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 flex flex-col p-4 sm:p-6 w-full h-full">
           {/* Encabezado con Mes y Año actuales dinámicos */}
           <div className="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-slate-100 pb-4">
             <div>
@@ -351,21 +351,21 @@ export default function MidSection() {
         </div>
 
         {/* Columna Derecha: Mapa */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-6 h-[400px] sm:h-[480px] md:h-full flex flex-col relative">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-6 w-full flex flex-col relative h-auto md:h-full">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-3 sm:mb-4 flex-shrink-0">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Mapa de la Ciudad</h2>
             <span className="text-xs font-semibold px-2.5 py-1 bg-sky-50 text-sky-700 rounded-full border border-sky-100 shrink-0">
               Pines en vivo
             </span>
           </div>
 
-          <form onSubmit={handleSearchSubmit} className="mb-4 flex gap-2">
+          <form onSubmit={handleSearchSubmit} className="mb-3 sm:mb-4 flex gap-2 flex-shrink-0 w-full">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Buscar calle o lugar (ej: Sáenz Peña 12, Ameghino)..."
-              className="flex-grow min-w-0 bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:bg-white transition-all text-xs sm:text-sm font-medium"
+              className="flex-grow min-w-0 w-full bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:bg-white transition-all text-xs sm:text-sm font-medium"
             />
             <button
               type="submit"
@@ -385,10 +385,10 @@ export default function MidSection() {
             </button>
           </form>
 
-          <div className="flex-grow rounded-xl overflow-hidden border border-slate-200 relative z-0">
+          <div className="relative w-full h-[320px] sm:h-[380px] md:h-auto md:flex-1 md:min-h-[380px] rounded-xl overflow-hidden border border-slate-200 z-0">
             <MapComponent center={mapCenter} searchQuery={searchQuery} searchMarker={searchMarker} />
 
-            <button className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-[400] bg-white/95 backdrop-blur-sm border border-slate-200 shadow-md rounded-xl px-3 py-1.5 sm:px-4 sm:py-2 flex items-center gap-1.5 sm:gap-2 hover:bg-slate-50 transition-colors">
+            <button className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-[400] bg-white/95 backdrop-blur-sm border border-slate-200 shadow-md rounded-xl px-2.5 py-1.5 sm:px-4 sm:py-2 flex items-center gap-1.5 sm:gap-2 hover:bg-slate-50 transition-colors pointer-events-auto">
               <FcRating className="text-base sm:text-lg" />
               <span className="font-bold text-slate-800 text-[11px] sm:text-xs">Puntos de Interés</span>
             </button>

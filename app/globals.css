@@ -143,3 +143,10 @@ html.dark body,
   --tw-gradient-from: #0b101d !important;
   --tw-gradient-to: rgb(11 16 29 / 0) !important;
 }
+
+/* Responsividad Garantizada para Mapas Leaflet */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0;
+}

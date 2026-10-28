@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { dbService, Location } from "../services/database";
+import { dbService, Location, Event } from "../services/database";
 
 const customIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
@@ -45,6 +45,40 @@ function MapUpdater({ center }: { center: [number, number] }) {
   return null;
 }
 
+// Componente para invalidar el tamaño y recalcular teselas de Leaflet al redimensionar la pantalla o contenedor
+function MapResizeHandler() {
+  const map = useMap();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 200);
+
+    const container = map.getContainer();
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && container) {
+      resizeObserver = new ResizeObserver(() => {
+        map.invalidateSize();
+      });
+      resizeObserver.observe(container);
+    }
+
+    const handleWindowResize = () => {
+      map.invalidateSize();
+    };
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleWindowResize);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
+  }, [map]);
+
+  return null;
+}
+
 interface MapComponentProps {
   center: [number, number];
   searchQuery?: string;
@@ -53,7 +87,7 @@ interface MapComponentProps {
 
 export default function MapComponent({ center, searchQuery = "", searchMarker }: MapComponentProps) {
   const [locations, setLocations] = useState<Location[]>([]);
-  const [events, setEvents] = useState<any[]>([]); // Usamos any para simplificar el tipo aquí
+  const [events, setEvents] = useState<Event[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -78,14 +112,16 @@ export default function MapComponent({ center, searchQuery = "", searchMarker }:
   );
 
   return (
-    <div className="h-full w-full relative z-0">
+    <div className="h-full w-full relative z-0" style={{ height: "100%", width: "100%" }}>
       <MapContainer
         center={center}
         zoom={14}
         scrollWheelZoom={false}
         className="h-full w-full rounded-xl z-0"
+        style={{ height: "100%", width: "100%" }}
       >
         <MapUpdater center={center} />
+        <MapResizeHandler />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
