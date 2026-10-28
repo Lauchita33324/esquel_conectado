@@ -58,22 +58,22 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex justify-between h-14 sm:h-16 items-center">
           {/* Logo institucional */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
+          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-700 group-hover:bg-blue-100 transition-colors shrink-0">
               <FcLandscape className="text-xl sm:text-2xl" />
             </div>
-            <div className="flex flex-col min-w-0">
-              <span className="font-extrabold text-base sm:text-xl tracking-tight text-blue-700 leading-tight truncate">
+            <div className="flex flex-col shrink-0">
+              <span className="font-extrabold text-base sm:text-xl tracking-tight text-blue-700 leading-tight whitespace-nowrap">
                 Esquel <span className="text-sky-500 font-medium">Conectado</span>
               </span>
-              <span className="hidden sm:block text-[10px] uppercase tracking-wider text-slate-600 font-semibold">
+              <span className="hidden sm:block text-[10px] uppercase tracking-wider text-slate-600 font-semibold whitespace-nowrap">
                 Portal Comarcal
               </span>
             </div>
           </Link>
 
           {/* 5 Accesos Principales (Desktop) */}
-          <div className="hidden md:flex items-center space-x-7">
+          <div className="hidden xl:flex items-center space-x-5 2xl:space-x-7 text-sm">
             <Link
               href="/"
               className="text-slate-700 hover:text-blue-700 font-medium transition-colors"
@@ -170,7 +170,7 @@ export default function Navbar() {
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 sm:p-2 rounded-lg text-slate-600 hover:text-blue-700 hover:bg-slate-100 focus:outline-none cursor-pointer"
+              className="xl:hidden p-1.5 sm:p-2 rounded-lg text-slate-600 hover:text-blue-700 hover:bg-slate-100 focus:outline-none cursor-pointer"
               aria-label="Menú principal"
             >
               <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -187,7 +187,7 @@ export default function Navbar() {
 
       {/* Menú Móvil */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
+        <div className="xl:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
