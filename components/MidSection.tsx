@@ -106,27 +106,27 @@ export default function MidSection() {
       <div className="grid md:grid-cols-2 gap-8 h-auto lg:h-[620px]">
 
         {/* Columna Izquierda: Calendario */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 flex flex-col p-6 h-full">
-          <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
-            <h2 className="text-2xl font-bold text-slate-900">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 flex flex-col p-4 sm:p-6 h-full">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-6 border-b border-slate-100 pb-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
               Calendario de Eventos
             </h2>
-            <span className="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-100">
+            <span className="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-100 shrink-0">
               Hoy en la Comarca
             </span>
           </div>
 
-          <div className="grid grid-cols-7 gap-1 text-center mb-6">
+          <div className="grid grid-cols-7 gap-0.5 sm:gap-1 text-center mb-6">
             {["D", "L", "M", "M", "J", "V", "S"].map((day, idx) => (
               <div key={`${day}-${idx}`} className="text-slate-600 font-semibold text-xs py-1">{day}</div>
             ))}
-            <div className="p-2 text-slate-400 text-sm">28</div>
-            <div className="p-2 text-slate-400 text-sm">29</div>
-            <div className="p-2 text-slate-400 text-sm">30</div>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-slate-400 text-xs sm:text-sm">28</div>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-slate-400 text-xs sm:text-sm">29</div>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-slate-400 text-xs sm:text-sm">30</div>
             {[...Array(31)].map((_, i) => (
               <div
                 key={i}
-                className={`p-2 rounded-xl w-9 h-9 mx-auto flex items-center justify-center text-sm font-medium transition-colors
+                className={`rounded-lg sm:rounded-xl w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-xs sm:text-sm font-medium transition-colors
                   ${i + 1 === 15 ? "bg-blue-700 text-white font-bold shadow-md cursor-pointer" : "text-slate-700 hover:bg-slate-100 cursor-pointer"}`}
               >
                 {i + 1}
@@ -147,9 +147,9 @@ export default function MidSection() {
                     className="bg-slate-50 border border-slate-100 p-3 rounded-lg flex items-start cursor-pointer hover:bg-slate-100 transition-colors"
                   >
                     <div className="w-2 h-2 mt-1.5 rounded-full bg-blue-500 mr-3 flex-shrink-0"></div>
-                    <div>
-                      <p className="font-semibold text-blue-600">{event.title}</p>
-                      <p className="text-sm text-slate-500">{event.time} - {event.locationName}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-blue-600 truncate">{event.title}</p>
+                      <p className="text-sm text-slate-500 truncate">{event.time} - {event.locationName}</p>
                     </div>
                   </li>
                 ))}
@@ -159,10 +159,10 @@ export default function MidSection() {
         </div>
 
         {/* Columna Derecha: Mapa */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 h-[500px] md:h-full flex flex-col relative">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-slate-900">Mapa de la Ciudad</h2>
-            <span className="text-xs font-semibold px-2.5 py-1 bg-sky-50 text-sky-700 rounded-full border border-sky-100">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-6 h-[500px] md:h-full flex flex-col relative">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Mapa de la Ciudad</h2>
+            <span className="text-xs font-semibold px-2.5 py-1 bg-sky-50 text-sky-700 rounded-full border border-sky-100 shrink-0">
               Pines en vivo
             </span>
           </div>
@@ -173,12 +173,12 @@ export default function MidSection() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Buscar calle o lugar (ej: Sáenz Peña 12, Ameghino)..."
-              className="flex-grow bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:bg-white transition-all text-sm font-medium"
+              className="flex-grow min-w-0 bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:bg-white transition-all text-sm font-medium"
             />
             <button
               type="submit"
               disabled={isSearching}
-              className="bg-blue-700 hover:bg-blue-800 text-white font-extrabold px-5 py-2.5 rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 text-xs uppercase tracking-wide cursor-pointer active:scale-95 disabled:opacity-50"
+              className="shrink-0 bg-blue-700 hover:bg-blue-800 text-white font-extrabold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 text-xs uppercase tracking-wide cursor-pointer active:scale-95 disabled:opacity-50"
             >
               {isSearching ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
