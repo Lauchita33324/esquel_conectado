@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Camera } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Captcha from "../../components/Captcha";
 import { dbService } from "../../services/database";
@@ -164,8 +165,9 @@ export default function NuevoEmpleoPage() {
 
             {/* Subir Foto / Logo del Comercio */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                📷 Imagen / Foto del Comercio o Empresa (Opcional)
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <Camera className="w-3.5 h-3.5 stroke-[2] text-blue-700" />
+                <span>Imagen / Foto del Comercio o Empresa (Opcional)</span>
               </label>
               <div className="flex items-center gap-4 bg-slate-50 border border-slate-300 p-3 rounded-xl">
                 <input

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { Star, MapPin, Map, Calendar, Clock } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Modal from "../../components/Modal";
 import Captcha from "../../components/Captcha";
@@ -315,8 +316,8 @@ export default function EventosPage() {
 
                     <div>
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs font-black uppercase tracking-wider px-3 py-1 bg-amber-400 text-slate-950 rounded-full shadow-sm">
-                          ⭐ Evento Destacado
+                        <span className="text-xs font-black uppercase tracking-wider px-3 py-1 bg-amber-400 text-slate-950 rounded-full shadow-sm inline-flex items-center gap-1">
+                          <Star className="w-3.5 h-3.5 stroke-[2] fill-slate-950" /> Evento Destacado
                         </span>
                         {events[0].category && (
                           <span className="text-xs font-bold px-3 py-1 bg-white/10 text-sky-200 backdrop-blur-md rounded-full border border-white/20">
@@ -329,8 +330,8 @@ export default function EventosPage() {
                         {events[0].title}
                       </h2>
 
-                      <p className="text-sm font-bold text-sky-300 flex items-center gap-1.5 mb-3">
-                        📍 {events[0].locationName} {events[0].city ? `(${events[0].city})` : ""}
+                      <p className="text-sm font-bold text-sky-300 inline-flex items-center gap-1.5 mb-3">
+                        <MapPin className="w-3.5 h-3.5 stroke-[2]" /> {events[0].locationName} {events[0].city ? `(${events[0].city})` : ""}
                       </p>
 
                       <p className="text-sm text-slate-300 line-clamp-2 max-w-3xl leading-relaxed">
@@ -341,9 +342,9 @@ export default function EventosPage() {
 
                   <button
                     onClick={() => setSelectedEvent(events[0])}
-                    className="self-start lg:self-auto bg-gradient-to-r from-sky-400 to-blue-500 hover:from-sky-300 hover:to-blue-400 text-slate-950 font-black px-7 py-3.5 rounded-2xl shadow-xl transition-all whitespace-nowrap text-sm uppercase tracking-wide cursor-pointer active:scale-95 flex items-center gap-2"
+                    className="self-start lg:self-auto bg-gradient-to-r from-sky-400 to-blue-500 hover:from-sky-300 hover:to-blue-400 text-slate-950 font-black px-7 py-3.5 rounded-2xl shadow-xl transition-all whitespace-nowrap text-sm uppercase tracking-wide cursor-pointer active:scale-95 inline-flex items-center gap-2"
                   >
-                    🗺️ Ver Ruta GPS
+                    <Map className="w-4 h-4 stroke-[2]" /> Ver Ruta GPS
                   </button>
                 </div>
               </div>
@@ -376,14 +377,14 @@ export default function EventosPage() {
                       <h3 className="text-base font-extrabold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400 transition-colors leading-snug">
                         {ev.title}
                       </h3>
-                      <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-                        ⏰ {ev.time}
+                      <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1 inline-flex items-center gap-1">
+                        <Clock className="w-3 h-3 stroke-[2]" /> {ev.time}
                       </p>
                     </div>
                   </div>
 
-                  <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mb-3 flex items-center gap-1.5">
-                    📍 {ev.locationName} {ev.city ? `(${ev.city})` : ""}
+                  <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mb-3 inline-flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 stroke-[2] text-blue-600 dark:text-sky-400" /> {ev.locationName} {ev.city ? `(${ev.city})` : ""}
                   </p>
 
                   <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed mb-4">
@@ -395,7 +396,7 @@ export default function EventosPage() {
                       onClick={() => setSelectedEvent(ev)}
                       className="w-full bg-blue-700 hover:bg-blue-800 text-white font-extrabold py-2.5 px-4 rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wide cursor-pointer active:scale-95"
                     >
-                      Ver Mapa y Cómo Llegar
+                      <Map className="w-3.5 h-3.5 stroke-[2]" /> Ver Mapa y Cómo Llegar
                     </button>
                   </div>
                 </div>
@@ -415,10 +416,12 @@ export default function EventosPage() {
           <div className="space-y-4">
             <div className="bg-emerald-50 border border-emerald-100 p-3.5 rounded-xl flex items-center justify-between text-xs">
               <div>
-                <span className="text-emerald-800 font-extrabold block">
-                  🗓️ {formatDateDisplay(selectedEvent.date)}
+                <span className="text-emerald-800 font-extrabold flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 stroke-[2]" /> {formatDateDisplay(selectedEvent.date)}
                 </span>
-                <span className="text-emerald-700 font-semibold">⏰ Horario: {selectedEvent.time}</span>
+                <span className="text-emerald-700 font-semibold inline-flex items-center gap-1 mt-0.5">
+                  <Clock className="w-3.5 h-3.5 stroke-[2]" /> Horario: {selectedEvent.time}
+                </span>
               </div>
               {selectedEvent.category && (
                 <span className="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full text-[11px]">
@@ -429,7 +432,9 @@ export default function EventosPage() {
 
             <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
               <span className="text-xs font-bold text-slate-500 uppercase block mb-1">Lugar y Dirección:</span>
-              <p className="text-sm font-bold text-slate-800">📍 {selectedEvent.locationName}</p>
+              <p className="text-sm font-bold text-slate-800 inline-flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-blue-600 stroke-[2]" /> {selectedEvent.locationName}
+              </p>
             </div>
 
             <div>

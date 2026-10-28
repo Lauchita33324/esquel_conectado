@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { User, Briefcase } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Captcha from "../../components/Captcha";
 import { dbService } from "../../services/database";
@@ -113,7 +114,8 @@ export default function RegistroPage() {
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
               }`}
             >
-              <span>👤 Busco Empleo / Vecino</span>
+              <User className="w-4 h-4 stroke-[2]" />
+              <span>Busco Empleo / Vecino</span>
             </button>
             <button
               type="button"
@@ -124,7 +126,8 @@ export default function RegistroPage() {
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
               }`}
             >
-              <span>🏢 Empresa / Comercio</span>
+              <Briefcase className="w-4 h-4 stroke-[2]" />
+              <span>Empresa / Comercio</span>
             </button>
           </div>
 

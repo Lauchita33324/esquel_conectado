@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { MapPin, Clock, DollarSign, MessageSquare } from "lucide-react";
 import { dbService, Job } from "../services/database";
 import Modal from "./Modal";
 
@@ -264,8 +265,8 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
                       {job.companyName}
                     </h4>
                     <span className="text-slate-400 dark:text-slate-500 text-xs">&bull;</span>
-                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                      📍 {job.city}
+                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium inline-flex items-center gap-1">
+                      <MapPin className="w-3 h-3 text-blue-600 dark:text-sky-400 stroke-[2]" /> {job.city}
                     </span>
                     {job.category && (
                       <span className="text-[11px] font-extrabold px-2.5 py-0.5 bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-sky-800 rounded-full ml-auto md:ml-0">
@@ -282,12 +283,12 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
                   {/* Badges de modalidad y salario destacado en Monoespaciado */}
                   <div className="flex flex-wrap items-center gap-2 mt-2">
                     <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">
-                      ⚡ {job.employmentType || "Jornada Completa"}
+                      <Clock className="w-3 h-3 stroke-[2] text-slate-500" /> {job.employmentType || "Jornada Completa"}
                     </span>
 
                     {/* Salario en tipografía monoespaciada */}
                     <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-3 py-1 bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/80 rounded-lg shadow-xs">
-                      💰 {job.salary || "A convenir"}
+                      <DollarSign className="w-3 h-3 stroke-[2] text-emerald-600 dark:text-emerald-400" /> {job.salary || "A convenir"}
                     </span>
                   </div>
 
@@ -307,9 +308,9 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
                 </button>
                 <button
                   onClick={() => setChatJob(job)}
-                  className="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-extrabold py-2.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all text-xs text-center cursor-pointer active:scale-95"
+                  className="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-extrabold py-2.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all text-xs text-center cursor-pointer active:scale-95 inline-flex items-center justify-center gap-1.5"
                 >
-                  💬 Contactar
+                  <MessageSquare className="w-3.5 h-3.5 stroke-[2]" /> Contactar
                 </button>
               </div>
             </div>
@@ -423,7 +424,9 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
               </div>
               <div>
                 <h4 className="text-lg font-bold text-slate-900">{selectedJob.companyName}</h4>
-                <p className="text-xs text-slate-500 font-medium">📍 {selectedJob.city}, {selectedJob.province || "Chubut"}</p>
+                <p className="text-xs text-slate-500 font-medium inline-flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-blue-600 stroke-[2]" /> {selectedJob.city}, {selectedJob.province || "Chubut"}
+                </p>
               </div>
             </div>
 

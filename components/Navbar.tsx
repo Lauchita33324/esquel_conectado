@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useSyncExternalStore } from "react";
 import { FcLandscape } from "react-icons/fc";
-import { dbService } from "../services/database";
+import { Home, CloudRain, Sun, Moon } from "lucide-react";
 
 function subscribeTheme(callback: () => void) {
   window.addEventListener("storage", callback);
@@ -28,9 +28,28 @@ function getServerSnapshot(): boolean {
   return false;
 }
 
+function subscribeAuth(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("authChanged", callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("authChanged", callback);
+  };
+}
+
+function getAuthSnapshot(): boolean {
+  if (typeof window === "undefined") return false;
+  return !!localStorage.getItem("esquel_current_user");
+}
+
+function getAuthServerSnapshot(): boolean {
+  return false;
+}
+
 export default function Navbar() {
   const [showCities, setShowCities] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isLoggedIn = useSyncExternalStore(subscribeAuth, getAuthSnapshot, getAuthServerSnapshot);
   const isDarkMode = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getServerSnapshot);
   const cities = ["Esquel", "Trevelin", "Lago Puelo", "El Bolsón", "El Hoyo", "Epuyén", "Cholila", "El Maitén"];
 
@@ -132,16 +151,16 @@ export default function Navbar() {
 
             <Link
               href="/hospedajes"
-              className="text-slate-700 hover:text-blue-700 font-medium transition-colors font-bold text-blue-700"
+              className="text-slate-700 hover:text-blue-700 font-medium transition-colors font-bold text-blue-700 inline-flex items-center gap-1.5"
             >
-              🏡 Hospedajes
+              <Home className="w-4 h-4" /> Hospedajes
             </Link>
 
             <Link
               href="/clima"
-              className="text-slate-700 hover:text-blue-700 font-medium transition-colors font-bold text-sky-600 dark:text-sky-400"
+              className="text-slate-700 hover:text-blue-700 font-medium transition-colors font-bold text-sky-600 dark:text-sky-400 inline-flex items-center gap-1.5"
             >
-              🌤️ Clima / Rutas
+              <CloudRain className="w-4 h-4" /> Clima / Rutas
             </Link>
           </div>
 
@@ -150,21 +169,21 @@ export default function Navbar() {
             {/* Switch Modo Oscuro / Claro */}
             <button
               onClick={toggleTheme}
-              className="p-1.5 sm:p-2 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-xs cursor-pointer flex items-center justify-center text-xs font-extrabold"
+              className="p-1.5 sm:p-2 px-2 sm:px-3 rounded-lg sm:rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-xs cursor-pointer flex items-center justify-center text-xs font-extrabold gap-1.5"
               title={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
               aria-label={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
             >
-              <span>{isDarkMode ? "🌙" : "☀️"}</span>
-              <span className="hidden sm:inline ml-1.5">
+              {isDarkMode ? <Moon className="w-3.5 h-3.5 text-amber-400" /> : <Sun className="w-3.5 h-3.5 text-amber-500" />}
+              <span className="hidden sm:inline">
                 {isDarkMode ? "Oscuro" : "Claro"}
               </span>
             </button>
 
             <Link
-              href={dbService.getCurrentUser() ? "/perfil" : "/login"}
+              href={isLoggedIn ? "/perfil" : "/login"}
               className="bg-blue-700 hover:bg-blue-800 text-white px-2.5 sm:px-5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm shadow-xs hover:shadow transition-all duration-150 active:scale-95 whitespace-nowrap"
             >
-              {dbService.getCurrentUser() ? "Mi Perfil" : "Ingresar"}
+              {isLoggedIn ? "Mi Perfil" : "Ingresar"}
             </Link>
 
             {/* Mobile Hamburger Button */}
@@ -219,16 +238,16 @@ export default function Navbar() {
           <Link
             href="/hospedajes"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-blue-700 hover:bg-blue-50 font-bold"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-blue-700 hover:bg-blue-50 font-bold"
           >
-            🏡 Hospedajes
+            <Home className="w-4 h-4" /> Hospedajes
           </Link>
           <Link
             href="/clima"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-sky-600 hover:bg-sky-50 font-bold"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sky-600 hover:bg-sky-50 font-bold"
           >
-            🌤️ Clima / Rutas
+            <CloudRain className="w-4 h-4" /> Clima / Rutas
           </Link>
           {/* Control de Modo Oscuro / Claro en Móviles */}
           <div className="pt-3 pb-1 border-t border-slate-100 flex items-center justify-between px-3">
@@ -239,7 +258,17 @@ export default function Navbar() {
               onClick={toggleTheme}
               className="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-amber-300 flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
             >
-              <span>{isDarkMode ? "☀️ Cambiar a Claro" : "🌙 Cambiar a Oscuro"}</span>
+              {isDarkMode ? (
+                <>
+                  <Sun className="w-3.5 h-3.5 text-amber-500" />
+                  <span>Cambiar a Claro</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Cambiar a Oscuro</span>
+                </>
+              )}
             </button>
           </div>
 

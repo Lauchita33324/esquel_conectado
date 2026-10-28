@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { AlertTriangle, MapPin, Calendar, Car, Bike, Footprints } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -124,35 +125,35 @@ export default function EventRouteMap({
             <button
               type="button"
               onClick={() => setTravelMode("driving")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all inline-flex items-center gap-1.5 ${
                 travelMode === "driving"
                   ? "bg-blue-700 text-white shadow-sm"
                   : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
               }`}
             >
-              🚗 Auto
+              <Car className="w-3.5 h-3.5 stroke-[2]" /> Auto
             </button>
             <button
               type="button"
               onClick={() => setTravelMode("bicycling")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all inline-flex items-center gap-1.5 ${
                 travelMode === "bicycling"
                   ? "bg-blue-700 text-white shadow-sm"
                   : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
               }`}
             >
-              🚲 Bici
+              <Bike className="w-3.5 h-3.5 stroke-[2]" /> Bici
             </button>
             <button
               type="button"
               onClick={() => setTravelMode("walking")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all inline-flex items-center gap-1.5 ${
                 travelMode === "walking"
                   ? "bg-blue-700 text-white shadow-sm"
                   : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
               }`}
             >
-              🚶 A pie
+              <Footprints className="w-3.5 h-3.5 stroke-[2]" /> A pie
             </button>
           </div>
         </div>
@@ -179,8 +180,8 @@ export default function EventRouteMap({
         </div>
 
         {geoError && (
-          <p className="text-[11px] text-amber-700 font-medium bg-amber-50 p-2 rounded-lg border border-amber-200">
-            ⚠️ {geoError}
+          <p className="text-[11px] text-amber-700 font-medium bg-amber-50 p-2 rounded-lg border border-amber-200 flex items-center gap-1.5">
+            <AlertTriangle className="w-3.5 h-3.5 stroke-[2] flex-shrink-0" /> {geoError}
           </p>
         )}
       </div>
@@ -203,7 +204,9 @@ export default function EventRouteMap({
           <Marker position={[eventLat, eventLng]} icon={eventMarkerIcon}>
             <Popup>
               <div className="text-center font-sans">
-                <strong className="text-red-600 block text-xs">📅 {eventTitle}</strong>
+                <strong className="text-red-600 block text-xs flex items-center justify-center gap-1">
+                  <Calendar className="w-3 h-3" /> {eventTitle}
+                </strong>
                 <span className="text-slate-600 text-xs">{locationName}</span>
               </div>
             </Popup>
@@ -214,7 +217,9 @@ export default function EventRouteMap({
             <Marker position={userLocation} icon={userMarkerIcon}>
               <Popup>
                 <div className="text-center font-sans">
-                  <strong className="text-blue-600 block text-xs">📍 Tu Ubicación GPS</strong>
+                  <strong className="text-blue-600 block text-xs flex items-center justify-center gap-1">
+                    <MapPin className="w-3 h-3" /> Tu Ubicación GPS
+                  </strong>
                 </div>
               </Popup>
             </Marker>

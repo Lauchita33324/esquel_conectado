@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapPin, Calendar } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { dbService, Location, Event } from "../services/database";
@@ -131,8 +132,10 @@ export default function MapComponent({ center, searchQuery = "", searchMarker }:
         {searchMarker && (
           <Marker position={[searchMarker.lat, searchMarker.lng]} icon={searchIcon}>
             <Popup>
-              <div className="text-center">
-                <strong className="text-amber-700 block">📍 Resultado de Búsqueda</strong>
+              <div className="text-center font-sans">
+                <strong className="text-amber-700 block flex items-center justify-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 stroke-[2]" /> Resultado de Búsqueda
+                </strong>
                 <span className="text-slate-700 text-xs font-semibold">{searchMarker.title}</span>
               </div>
             </Popup>
@@ -156,8 +159,10 @@ export default function MapComponent({ center, searchQuery = "", searchMarker }:
         {filteredEvents.map((ev) => (
           <Marker key={`event-${ev.id}`} position={[ev.lat, ev.lng]} icon={eventIcon}>
             <Popup>
-              <div className="text-center">
-                <strong className="text-red-600 block">📅 {ev.title}</strong>
+              <div className="text-center font-sans">
+                <strong className="text-red-600 block flex items-center justify-center gap-1">
+                  <Calendar className="w-3.5 h-3.5 stroke-[2]" /> {ev.title}
+                </strong>
                 <span className="text-slate-600 text-sm">{ev.time}</span>
                 <span className="text-xs text-slate-400 block mt-1">{ev.locationName}</span>
               </div>

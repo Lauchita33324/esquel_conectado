@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Camera, Briefcase, Plus, Trash2, FileText } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import { dbService, User, Job, Application } from "../../services/database";
 
@@ -91,7 +92,8 @@ export default function PerfilPage() {
                 htmlFor="avatar-input"
                 className="absolute inset-0 bg-black/50 rounded-full text-white flex flex-col items-center justify-center text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer p-1 text-center"
               >
-                <span>📷 {uploading ? "Cargando..." : "Subir Foto"}</span>
+                <Camera className="w-5 h-5 stroke-[2] mb-0.5" />
+                <span>{uploading ? "Cargando..." : "Subir Foto"}</span>
               </label>
               <input
                 id="avatar-input"
@@ -106,8 +108,8 @@ export default function PerfilPage() {
               <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800">{user.name}</h1>
                 {user.role === "Empleador" && (
-                  <span className="text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-200 inline-flex items-center gap-1">
-                    🏢 {user.companyName ? `Empresa: ${user.companyName}` : "Perfil Empleador"}
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-200 inline-flex items-center gap-1.5">
+                    <Briefcase className="w-3 h-3 stroke-[2]" /> {user.companyName ? `Empresa: ${user.companyName}` : "Perfil Empleador"}
                   </span>
                 )}
               </div>
@@ -117,7 +119,8 @@ export default function PerfilPage() {
                 htmlFor="avatar-input"
                 className="inline-flex items-center gap-1.5 mt-2.5 px-3 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-bold rounded-lg border border-sky-200 cursor-pointer transition-colors"
               >
-                <span>📷 {user.avatarUrl ? "Cambiar Foto / Logo" : "Agregar Foto o Logo de Empresa"}</span>
+                <Camera className="w-3.5 h-3.5 stroke-[2]" />
+                <span>{user.avatarUrl ? "Cambiar Foto / Logo" : "Agregar Foto o Logo de Empresa"}</span>
               </label>
             </div>
           </div>
@@ -136,13 +139,13 @@ export default function PerfilPage() {
           <section>
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                💼 Mis Empleos Publicados
+                <Briefcase className="w-5 h-5 text-blue-700 stroke-[2]" /> Mis Empleos Publicados
               </h2>
               <button
                 onClick={() => router.push("/nuevo-empleo")}
-                className="text-xs font-extrabold bg-blue-700 text-white hover:bg-blue-800 px-3 py-1.5 rounded-lg transition-colors shadow-sm"
+                className="text-xs font-extrabold bg-blue-700 text-white hover:bg-blue-800 px-3 py-1.5 rounded-lg transition-colors shadow-sm inline-flex items-center gap-1"
               >
-                + Publicar Empleo
+                <Plus className="w-3.5 h-3.5 stroke-[2.5]" /> Publicar Empleo
               </button>
             </div>
             <div className="space-y-4">
@@ -153,7 +156,7 @@ export default function PerfilPage() {
                     onClick={() => router.push("/nuevo-empleo")}
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors"
                   >
-                    ➕ Publicar tu primera oferta
+                    <Plus className="w-3.5 h-3.5 stroke-[2.5]" /> Publicar tu primera oferta
                   </button>
                 </div>
               ) : (
@@ -165,10 +168,10 @@ export default function PerfilPage() {
                     </div>
                     <button
                       onClick={() => handleDeleteJob(job.id)}
-                      className="px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg border border-red-200 transition-colors"
+                      className="px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg border border-red-200 transition-colors inline-flex items-center gap-1"
                       title="Eliminar empleo publicado"
                     >
-                      🗑️ Eliminar
+                      <Trash2 className="w-3.5 h-3.5 stroke-[2]" /> Eliminar
                     </button>
                   </div>
                 ))
@@ -179,7 +182,7 @@ export default function PerfilPage() {
           {/* Sección: Mis Postulaciones */}
           <section>
             <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-              📝 Mis Solicitudes
+              <FileText className="w-5 h-5 text-blue-700 stroke-[2]" /> Mis Solicitudes
             </h2>
             <div className="space-y-4">
               {myApps.length === 0 ? (

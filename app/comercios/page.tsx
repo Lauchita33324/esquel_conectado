@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { Check, Star, MapPin, Clock, Map, MessageSquare } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Modal from "../../components/Modal";
 import { dbService, Location } from "../../services/database";
@@ -218,16 +219,16 @@ export default function ComerciosPage() {
                   {/* Top Bar: Categoría, Rating e Insignia Verificado */}
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
                     <span className="text-xs font-black uppercase tracking-wider px-3 py-1 bg-sky-50 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-sky-800 rounded-full">
-                      🏕️ {comercio.category || "Comercio"}
+                      {comercio.category || "Comercio"}
                     </span>
 
                     <div className="flex items-center gap-2">
-                      <span className="text-[11px] font-bold px-2 py-0.5 bg-blue-50 dark:bg-slate-800 text-blue-700 dark:text-sky-400 border border-blue-100 dark:border-slate-700 rounded-md flex items-center gap-1">
-                        ✔ Verificado
+                      <span className="text-[11px] font-bold px-2 py-0.5 bg-blue-50 dark:bg-slate-800 text-blue-700 dark:text-sky-400 border border-blue-100 dark:border-slate-700 rounded-md inline-flex items-center gap-1">
+                        <Check className="w-3 h-3 stroke-[2.5]" /> Verificado
                       </span>
                       {comercio.rating && (
                         <span className="inline-flex items-center gap-1 text-xs font-black text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 px-2.5 py-0.5 rounded-lg border border-amber-200 dark:border-amber-800/80">
-                          ⭐ {comercio.rating}
+                          <Star className="w-3 h-3 stroke-[2] fill-amber-400 text-amber-500" /> {comercio.rating}
                         </span>
                       )}
                     </div>
@@ -239,14 +240,14 @@ export default function ComerciosPage() {
                   </h3>
 
                   {/* Dirección y Ciudad */}
-                  <p className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-3 flex items-center gap-1.5">
-                    📍 {comercio.address || comercio.name} {comercio.city ? `(${comercio.city})` : ""}
+                  <p className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-3 inline-flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400 stroke-[2]" /> {comercio.address || comercio.name} {comercio.city ? `(${comercio.city})` : ""}
                   </p>
 
                   {/* Horario de Atención */}
                   {comercio.hours && (
-                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-1.5">
-                      ⏰ {comercio.hours}
+                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-3 inline-flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 stroke-[2]" /> {comercio.hours}
                     </p>
                   )}
 
@@ -262,7 +263,7 @@ export default function ComerciosPage() {
                     onClick={() => setSelectedCommerce(comercio)}
                     className="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-extrabold py-3 px-4 rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wide cursor-pointer active:scale-95"
                   >
-                    🗺️ Ver Mapa y Ruta GPS
+                    <Map className="w-3.5 h-3.5 stroke-[2]" /> Ver Mapa y Ruta GPS
                   </button>
 
                   {comercio.phone && (
@@ -272,7 +273,8 @@ export default function ComerciosPage() {
                       rel="noopener noreferrer"
                       className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs transition-all text-center border border-emerald-500 flex items-center justify-center gap-1.5 shadow-xs cursor-pointer active:scale-95"
                     >
-                      <span>💬 WhatsApp Directo</span>
+                      <MessageSquare className="w-3.5 h-3.5 stroke-[2]" />
+                      <span>WhatsApp Directo</span>
                     </a>
                   )}
                 </div>
@@ -295,7 +297,9 @@ export default function ComerciosPage() {
                 <span className="text-blue-900 font-extrabold block text-sm">
                   {selectedCommerce.name}
                 </span>
-                <span className="text-blue-700 font-semibold">📍 {selectedCommerce.address}</span>
+                <span className="text-blue-700 font-semibold inline-flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 stroke-[2]" /> {selectedCommerce.address}
+                </span>
               </div>
               {selectedCommerce.category && (
                 <span className="bg-blue-100 text-blue-800 font-bold px-2.5 py-1 rounded-full text-[11px]">
