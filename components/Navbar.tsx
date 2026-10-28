@@ -1,37 +1,56 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import { FcLandscape } from "react-icons/fc";
 import { dbService } from "../services/database";
+
+function subscribeTheme(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener("themeChanged", callback);
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+  media.addEventListener("change", callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("themeChanged", callback);
+    media.removeEventListener("change", callback);
+  };
+}
+
+function getThemeSnapshot(): boolean {
+  if (typeof window === "undefined") return false;
+  const saved = localStorage.getItem("theme");
+  if (saved) return saved === "dark";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+function getServerSnapshot(): boolean {
+  return false;
+}
 
 export default function Navbar() {
   const [showCities, setShowCities] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const isDarkMode = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getServerSnapshot);
   const cities = ["Esquel", "Trevelin", "Lago Puelo", "El Bolsón", "El Hoyo", "Epuyén", "Cholila", "El Maitén"];
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-      setIsDarkMode(true);
+    if (isDarkMode) {
       document.documentElement.classList.add("dark");
     } else {
-      setIsDarkMode(false);
       document.documentElement.classList.remove("dark");
     }
-  }, []);
+  }, [isDarkMode]);
 
   const toggleTheme = () => {
-    if (isDarkMode) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDarkMode(false);
-    } else {
+    const next = !isDarkMode;
+    localStorage.setItem("theme", next ? "dark" : "light");
+    if (next) {
       document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDarkMode(true);
+    } else {
+      document.documentElement.classList.remove("dark");
     }
+    window.dispatchEvent(new Event("themeChanged"));
   };
 
   return (
@@ -133,10 +152,11 @@ export default function Navbar() {
               onClick={toggleTheme}
               className="p-1.5 sm:p-2 px-2.5 sm:px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 border border-slate-200 dark:border-slate-700 hover:scale-105 transition-all shadow-sm cursor-pointer flex items-center justify-center text-xs font-extrabold"
               title={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
+              aria-label={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
             >
-              <span>{isDarkMode ? "☀️" : "🌙"}</span>
+              <span>{isDarkMode ? "🌙" : "☀️"}</span>
               <span className="hidden sm:inline ml-1.5">
-                {isDarkMode ? "Claro" : "Oscuro"}
+                {isDarkMode ? "Oscuro" : "Claro"}
               </span>
             </button>
 
@@ -210,6 +230,19 @@ export default function Navbar() {
           >
             🌤️ Clima / Rutas
           </Link>
+          {/* Control de Modo Oscuro / Claro en Móviles */}
+          <div className="pt-3 pb-1 border-t border-slate-100 flex items-center justify-between px-3">
+            <span className="text-xs font-semibold text-slate-600">
+              Tema visual: <strong className="text-slate-800">{isDarkMode ? "Oscuro" : "Claro"}</strong>
+            </span>
+            <button
+              onClick={toggleTheme}
+              className="px-3 py-1.5 rounded-xl text-xs font-extrabold bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-amber-300 flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
+            >
+              <span>{isDarkMode ? "☀️ Cambiar a Claro" : "🌙 Cambiar a Oscuro"}</span>
+            </button>
+          </div>
+
           <div className="pt-2 border-t border-slate-100">
             <span className="block px-3 py-1 text-xs font-semibold text-slate-600 uppercase tracking-wider">
               Comarca Andina

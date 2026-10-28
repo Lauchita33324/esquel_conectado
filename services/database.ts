@@ -214,157 +214,496 @@ const initialLocations: Location[] = [
 ];
 
 
+// Helper para generar fechas futuras de demostración relativas a la fecha actual
+const getDemoFutureDate = (daysAhead: number, hours: number = 18, minutes: number = 0): string => {
+  const d = new Date();
+  d.setDate(d.getDate() + Math.max(1, daysAhead));
+  d.setHours(hours, minutes, 0, 0);
+  return d.toISOString();
+};
+
 const initialEvents: Event[] = [
+  // --- Esquel ---
   {
-    id: "1",
-    title: "Feria Tradicional de Artesanos y Emprendedores",
+    id: "ev-esq-1",
+    title: "Feria de Artesanos y Productores Locales (Demo)",
     time: "10:00 - 19:00 HS",
-    locationName: "Plaza San Martín, Esquel",
-    date: new Date(Date.now() + 86400000).toISOString(),
-    endDate: new Date(Date.now() + 172800000).toISOString(),
-    description: "Vení a disfrutar del paseo gastronómico, puestos textiles, artesanías en madera y espectáculos al aire libre.",
+    locationName: "Plaza San Martín (Espacio Demo), Esquel",
+    date: getDemoFutureDate(0, 19, 0), // Hoy
+    endDate: getDemoFutureDate(0, 22, 0),
+    description: "[Evento Demostrativo] Puestos de diseño textil, cuchillería, cerámica y dulces patagónicos en la plaza central de Esquel.",
     lat: -42.914,
     lng: -71.318,
     city: "Esquel",
     category: "Ferias y Paseos",
-    organizerEmail: "ferias@esquel.gov.ar"
+    organizerEmail: "demo-eventos@esquelconectado.local"
   },
   {
-    id: "2",
-    title: "Noche de Jazz y Folclore Patagónico",
+    id: "ev-esq-2",
+    title: "Noche de Música Acústica y Jazz Cordillerano (Demo)",
     time: "21:30 HS",
-    locationName: "Centro Cultural Melipal, Esquel",
-    date: new Date(Date.now() + 172800000).toISOString(),
-    endDate: new Date(Date.now() + 259200000).toISOString(),
-    description: "Encuentro musical con bandas en vivo, buffet de productos regionales y cachaça artesanal.",
+    locationName: "Centro Melipal (Auditorio Demo), Esquel",
+    date: getDemoFutureDate(3, 21, 30),
+    endDate: getDemoFutureDate(3, 23, 45),
+    description: "[Evento Demostrativo] Concierto de ensambles acústicos locales y buffet con productos regionales de muestra.",
     lat: -42.916,
     lng: -71.312,
     city: "Esquel",
     category: "Música y Conciertos",
-    organizerEmail: "cultura@esquel.gov.ar"
+    organizerEmail: "demo-eventos@esquelconectado.local"
   },
+
+  // --- Trevelin ---
   {
-    id: "3",
-    title: "Fiesta del Tulipán y Productores de la Comarca",
-    time: "11:00 - 18:00 HS",
-    locationName: "Campo de Tulipanes, Trevelin",
-    date: new Date(Date.now() + 259200000).toISOString(),
-    endDate: new Date(Date.now() + 345600000).toISOString(),
-    description: "Recorrido guiado, fotografía turística, puestos gastronómicos de té galés y repostería artesanal.",
+    id: "ev-tre-1",
+    title: "Encuentro Comarcal de Té y Repostería Galesa (Demo)",
+    time: "15:00 - 20:00 HS",
+    locationName: "Paseo de la Costanera (Espacio Demo), Trevelin",
+    date: getDemoFutureDate(1, 15, 0),
+    endDate: getDemoFutureDate(1, 20, 0),
+    description: "[Evento Demostrativo] Degustaciones de torta negra galesa, panes caseros y muestra de danzas típicas.",
     lat: -43.085,
     lng: -71.463,
     city: "Trevelin",
     category: "Cultura y Turismo",
-    organizerEmail: "turismo@trevelin.gob.ar"
+    organizerEmail: "demo-eventos@esquelconectado.local"
   },
   {
-    id: "4",
-    title: "Maratón de Montaña La Hoya Trail",
-    time: "08:30 HS",
-    locationName: "Base del Centro de Esquí La Hoya",
-    date: new Date(Date.now() + 345600000).toISOString(),
-    endDate: new Date(Date.now() + 432000000).toISOString(),
-    description: "Competencia deportiva de trail running 10k y 21k con vistas panorámicas al cordón del Esquel.",
-    lat: -42.833,
-    lng: -71.266,
-    city: "Esquel",
+    id: "ev-tre-2",
+    title: "Circuito Guiado de Fotografía y Naturaleza (Demo)",
+    time: "09:30 HS",
+    locationName: "Valle de Trevelin (Punto de Encuentro Demo)",
+    date: getDemoFutureDate(4, 9, 30),
+    endDate: getDemoFutureDate(4, 13, 0),
+    description: "[Evento Demostrativo] Recorrido fotográfico matutino por senderos y miradores del valle cordillerano.",
+    lat: -43.088,
+    lng: -71.460,
+    city: "Trevelin",
+    category: "Cultura y Turismo",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+
+  // --- Lago Puelo ---
+  {
+    id: "ev-pue-1",
+    title: "Jornada Náutica y Cuidado de Humedales (Demo)",
+    time: "11:00 - 18:00 HS",
+    locationName: "Parque Nacional (Zona Costera Demo), Lago Puelo",
+    date: getDemoFutureDate(2, 11, 0),
+    endDate: getDemoFutureDate(2, 18, 0),
+    description: "[Evento Demostrativo] Actividades recreativas en kayak sin motor y charlas breves sobre flora nativa lacustre.",
+    lat: -42.062,
+    lng: -71.595,
+    city: "Lago Puelo",
     category: "Deportes",
-    organizerEmail: "deportes@lahoya.com.ar"
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+  {
+    id: "ev-pue-2",
+    title: "Feria Agroecológica y Plantas Nativas (Demo)",
+    time: "14:00 - 19:00 HS",
+    locationName: "Plaza Central (Espacio Demo), Lago Puelo",
+    date: getDemoFutureDate(5, 14, 0),
+    endDate: getDemoFutureDate(5, 19, 0),
+    description: "[Evento Demostrativo] Puestos de hortalizas orgánicas, plantines nativos y biofertilizantes de la Comarca.",
+    lat: -42.059,
+    lng: -71.598,
+    city: "Lago Puelo",
+    category: "Ferias y Paseos",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+
+  // --- El Bolsón ---
+  {
+    id: "ev-bol-1",
+    title: "Feria de Diseñadores y Creadores Andinos (Demo)",
+    time: "10:30 - 18:30 HS",
+    locationName: "Plaza Pagano (Paseo Demo), El Bolsón",
+    date: getDemoFutureDate(1, 10, 30),
+    endDate: getDemoFutureDate(1, 18, 30),
+    description: "[Evento Demostrativo] Muestra de indumentaria en lana de oveja, cerámica artística y vitrofusión comarcal.",
+    lat: -41.966,
+    lng: -71.535,
+    city: "El Bolsón",
+    category: "Ferias y Paseos",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+  {
+    id: "ev-bol-2",
+    title: "Peña de Canto y Folklore Cordillerano (Demo)",
+    time: "21:00 HS",
+    locationName: "Salón Comunitario (Espacio Demo), El Bolsón",
+    date: getDemoFutureDate(6, 21, 0),
+    endDate: getDemoFutureDate(6, 23, 59),
+    description: "[Evento Demostrativo] Presentación de solistas y grupos de danza tradicional con menú criollo de prueba.",
+    lat: -41.962,
+    lng: -71.531,
+    city: "El Bolsón",
+    category: "Música y Conciertos",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+
+  // --- El Hoyo ---
+  {
+    id: "ev-hoy-1",
+    title: "Muestra de Dulces y Fruta Fina de Estación (Demo)",
+    time: "11:00 - 17:30 HS",
+    locationName: "Predio de la Fruta Fina (Espacio Demo), El Hoyo",
+    date: getDemoFutureDate(2, 11, 0),
+    endDate: getDemoFutureDate(2, 17, 30),
+    description: "[Evento Demostrativo] Elaboración en vivo de mermeladas de frambuesa, moras y conservas artesanales.",
+    lat: -42.065,
+    lng: -71.518,
+    city: "El Hoyo",
+    category: "Ferias y Paseos",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+  {
+    id: "ev-hoy-2",
+    title: "Trekking Familiar hacia la Cascada Corbata (Demo)",
+    time: "10:00 HS",
+    locationName: "Acceso a Senderos (Punto de Salida Demo), El Hoyo",
+    date: getDemoFutureDate(7, 10, 0),
+    endDate: getDemoFutureDate(7, 13, 30),
+    description: "[Evento Demostrativo] Caminata guiada de baja dificultad apta para todas las edades por el bosque nativo.",
+    lat: -42.058,
+    lng: -71.505,
+    city: "El Hoyo",
+    category: "Deportes",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+
+  // --- Epuyén ---
+  {
+    id: "ev-epu-1",
+    title: "Encuentro de Kayakistas y Remeros del Lago (Demo)",
+    time: "10:30 - 16:00 HS",
+    locationName: "Puerto Epuyén (Paraje Costero Demo), Epuyén",
+    date: getDemoFutureDate(3, 10, 30),
+    endDate: getDemoFutureDate(3, 16, 0),
+    description: "[Evento Demostrativo] Travesía recreativa en aguas calmas sin motores para visibilizar el cuidado del lago.",
+    lat: -42.228,
+    lng: -71.365,
+    city: "Epuyén",
+    category: "Deportes",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+  {
+    id: "ev-epu-2",
+    title: "Taller Comunitario de Huertas y Compostaje (Demo)",
+    time: "15:00 HS",
+    locationName: "Centro de Encuentro (Espacio Demo), Epuyén",
+    date: getDemoFutureDate(8, 15, 0),
+    endDate: getDemoFutureDate(8, 18, 0),
+    description: "[Evento Demostrativo] Taller práctico de regeneración de suelos y preparado de bioinsumos para huertas familiares.",
+    lat: -42.232,
+    lng: -71.369,
+    city: "Epuyén",
+    category: "Cultura y Turismo",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+
+  // --- Cholila ---
+  {
+    id: "ev-cho-1",
+    title: "Festival de Tradición Campera y Asado Criollo (Demo)",
+    time: "11:30 - 19:30 HS",
+    locationName: "Predio El Morro (Área Ferial Demo), Cholila",
+    date: getDemoFutureDate(4, 11, 30),
+    endDate: getDemoFutureDate(4, 19, 30),
+    description: "[Evento Demostrativo] Muestra de destrezas a caballo, asado patagónico y música folclórica en el valle de Cholila.",
+    lat: -42.508,
+    lng: -71.448,
+    city: "Cholila",
+    category: "Cultura y Turismo",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+  {
+    id: "ev-cho-2",
+    title: "Clínica de Pesca con Mosca y Devolución (Demo)",
+    time: "09:00 HS",
+    locationName: "Río Carrileufu (Acceso Pescadores Demo), Cholila",
+    date: getDemoFutureDate(9, 9, 0),
+    endDate: getDemoFutureDate(9, 14, 0),
+    description: "[Evento Demostrativo] Clase práctica sobre lectura de aguas cordilleranas, nudos y atado de moscas secas.",
+    lat: -42.515,
+    lng: -71.455,
+    city: "Cholila",
+    category: "Deportes",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+
+  // --- El Maitén ---
+  {
+    id: "ev-mai-1",
+    title: "Visita Guiada a Talleres Históricos de La Trochita (Demo)",
+    time: "14:30 - 18:00 HS",
+    locationName: "Estación Ferroviaria (Paseo Demo), El Maitén",
+    date: getDemoFutureDate(2, 14, 30),
+    endDate: getDemoFutureDate(2, 18, 0),
+    description: "[Evento Demostrativo] Recorrido por las máquinas de vapor centenarias y museo del Viejo Expreso Patagónico.",
+    lat: -42.052,
+    lng: -71.168,
+    city: "El Maitén",
+    category: "Cultura y Turismo",
+    organizerEmail: "demo-eventos@esquelconectado.local"
+  },
+  {
+    id: "ev-mai-2",
+    title: "Encuentro de Murgas y Ensambles Musicales (Demo)",
+    time: "18:00 HS",
+    locationName: "Anfiteatro de la Plaza (Espacio Demo), El Maitén",
+    date: getDemoFutureDate(5, 18, 0),
+    endDate: getDemoFutureDate(5, 21, 30),
+    description: "[Evento Demostrativo] Ritmo, percusión y espectáculos al aire libre para compartir en familia en El Maitén.",
+    lat: -42.050,
+    lng: -71.165,
+    city: "El Maitén",
+    category: "Música y Conciertos",
+    organizerEmail: "demo-eventos@esquelconectado.local"
   }
 ];
 
 
 const initialJobs: Job[] = [
+  // --- Esquel ---
   {
-    id: "1",
-    title: "Cajero/a de Salón Polivalente",
-    companyName: "Supermercado La Anónima",
-    companyPhotoPlaceholder: "LA",
-    description: "Buscamos cajero/a con experiencia en manejo de posnet, arqueo de caja y excelente trato al cliente. Turno rotativo con francos semanales.",
+    id: "job-esq-1",
+    title: "Atención al Cliente y Mostrador (Demo)",
+    companyName: "Comercio Demostrativo Esquel",
+    companyPhotoPlaceholder: "CD",
+    description: "[Publicación Demostrativa] Puesto de ejemplo para atención en mostrador, reposición y arqueo básico de caja en Esquel.",
     city: "Esquel",
     province: "Chubut",
     category: "Comercio",
     employmentType: "Jornada Completa",
-    salary: "$680.000 - $780.000",
-    createdAt: "Hace 2 días"
+    salary: "$720.000 - $800.000",
+    createdAt: "Hoy",
+    contactEmail: "demo-empleos@esquelconectado.local"
   },
   {
-    id: "2",
-    title: "Cocinero/a y Ayudante de Cocina",
-    companyName: "Restaurante Don Chiquino",
-    companyPhotoPlaceholder: "DC",
-    description: "Puesto para restaurante gastronómico reconocido de Esquel. Elaboración de pastas artesanales y despacho en servicio de cena.",
+    id: "job-esq-2",
+    title: "Auxiliar Contable y Liquidación (Demo)",
+    companyName: "Estudio de Gestión Demo Esquel",
+    companyPhotoPlaceholder: "EG",
+    description: "[Publicación Demostrativa] Soporte administrativo y carga de comprobantes en sistema de prueba para comercios de Esquel.",
     city: "Esquel",
     province: "Chubut",
-    category: "Gastronomía",
-    employmentType: "Jornada Completa",
-    salary: "$750.000 - $900.000",
-    createdAt: "Hace 1 día"
+    category: "Servicios Técnicos",
+    employmentType: "Part-time",
+    salary: "$520.000",
+    createdAt: "Hace 1 día",
+    contactEmail: "demo-empleos@esquelconectado.local"
   },
+
+  // --- Trevelin ---
   {
-    id: "3",
-    title: "Vendedor/a de Salón y Atención Turística",
-    companyName: "Boutique Andina",
-    companyPhotoPlaceholder: "BA",
-    description: "Atención comercial al público y turistas, manejo de inventario y caja en local céntrico de Trevelin.",
+    id: "job-tre-1",
+    title: "Mozo/a de Salón de Té Tradicional (Demo)",
+    companyName: "Casa de Té Demostrativa Trevelin",
+    companyPhotoPlaceholder: "CT",
+    description: "[Publicación Demostrativa] Servicio de mesa y atención a turistas en salón de té galés de prueba en Trevelin.",
     city: "Trevelin",
     province: "Chubut",
-    category: "Comercio",
+    category: "Gastronomía",
     employmentType: "Part-time",
-    salary: "$450.000",
-    createdAt: "Hace 3 días"
+    salary: "$490.000",
+    createdAt: "Hace 2 días",
+    contactEmail: "demo-empleos@esquelconectado.local"
   },
   {
-    id: "4",
-    title: "Técnico en Soporte IT y Conectividad",
-    companyName: "Esquel Comp & Redes",
-    companyPhotoPlaceholder: "EC",
-    description: "Mantenimiento preventivo, soporte a usuarios y configuración de enlaces de internet inalámbrico en la zona urbana y rural.",
-    city: "Esquel",
-    province: "Chubut",
-    category: "Tecnología",
-    employmentType: "Jornada Completa",
-    salary: "$820.000",
-    createdAt: "Hoy"
-  },
-  {
-    id: "5",
-    title: "Recepcionista de Hotel y Reservas",
-    companyName: "Hostería Cumbres Blancas",
-    companyPhotoPlaceholder: "CB",
-    description: "Atención a huéspedes, check-in, check-out y gestión de canales de reserva. Nivel de inglés intermedio valorado.",
-    city: "Esquel",
+    id: "job-tre-2",
+    title: "Informante y Guía Turístico Comarcal (Demo)",
+    companyName: "Operador Turístico Demo Trevelin",
+    companyPhotoPlaceholder: "OT",
+    description: "[Publicación Demostrativa] Atención y asesoramiento a visitantes sobre excursiones, viñedos y cascadas en Trevelin.",
+    city: "Trevelin",
     province: "Chubut",
     category: "Turismo",
     employmentType: "Por Temporada",
-    salary: "$620.000",
-    createdAt: "Hace 4 días"
+    salary: "$670.000",
+    createdAt: "Hoy",
+    contactEmail: "demo-empleos@esquelconectado.local"
   },
+
+  // --- Lago Puelo ---
   {
-    id: "6",
-    title: "Encargado/a de Chacra y Cosecha Fina",
-    companyName: "Chacra Las Golondrinas",
-    companyPhotoPlaceholder: "LG",
-    description: "Supervisión de cosecha de frutos rojos, empaque y despacho para la temporada de verano en la Comarca.",
-    city: "El Hoyo",
+    id: "job-pue-1",
+    title: "Recepcionista de Complejo Turístico (Demo)",
+    companyName: "Complejo de Cabañas Demo Puelo",
+    companyPhotoPlaceholder: "CC",
+    description: "[Publicación Demostrativa] Gestión de check-in, check-out y atención personalizada para estadías vacacionales en Lago Puelo.",
+    city: "Lago Puelo",
     province: "Chubut",
-    category: "Producción",
-    employmentType: "Por Temporada",
-    salary: "$600.000",
-    createdAt: "Hace 2 días"
+    category: "Turismo",
+    employmentType: "Jornada Completa",
+    salary: "$690.000",
+    createdAt: "Hace 1 día",
+    contactEmail: "demo-empleos@esquelconectado.local"
   },
   {
-    id: "7",
-    title: "Desarrollador/a Frontend React / Next.js",
-    companyName: "Patagonia Tech Solutions",
-    companyPhotoPlaceholder: "PT",
-    description: "Desarrollo de módulos web interactivos y plataformas SaaS. Modalidad de trabajo híbrida o remota desde la Comarca.",
+    id: "job-pue-2",
+    title: "Desarrollador/a Frontend React / Next.js (Demo)",
+    companyName: "Estudio Digital Demo Lago Puelo",
+    companyPhotoPlaceholder: "ED",
+    description: "[Publicación Demostrativa] Desarrollo y mantenimiento de interfaces web para plataformas de la región con esquema híbrido.",
     city: "Lago Puelo",
     province: "Chubut",
     category: "Tecnología",
     employmentType: "Remoto / Híbrido",
-    salary: "$1.200.000 - $1.500.000",
-    createdAt: "Hoy"
+    salary: "$1.250.000",
+    createdAt: "Hoy",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+
+  // --- El Bolsón ---
+  {
+    id: "job-bol-1",
+    title: "Auxiliar de Chocolatería y Confitería (Demo)",
+    companyName: "Taller Chocolatero Demo El Bolsón",
+    companyPhotoPlaceholder: "TC",
+    description: "[Publicación Demostrativa] Colaboración en templado de chocolate, relleno de bombones y envasado en El Bolsón.",
+    city: "El Bolsón",
+    province: "Río Negro",
+    category: "Gastronomía",
+    employmentType: "Jornada Completa",
+    salary: "$740.000",
+    createdAt: "Hace 2 días",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+  {
+    id: "job-bol-2",
+    title: "Vendedor/a de Salón de Artesanías (Demo)",
+    companyName: "Espacio de Diseño Demo El Bolsón",
+    companyPhotoPlaceholder: "ED",
+    description: "[Publicación Demostrativa] Atención comercial, exhibición de productos y control de caja en local céntrico de El Bolsón.",
+    city: "El Bolsón",
+    province: "Río Negro",
+    category: "Comercio",
+    employmentType: "Part-time",
+    salary: "$480.000",
+    createdAt: "Hoy",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+
+  // --- El Hoyo ---
+  {
+    id: "job-hoy-1",
+    title: "Encargado/a de Chacra y Cosecha Fina (Demo)",
+    companyName: "Chacra Frutas Finas Demo El Hoyo",
+    companyPhotoPlaceholder: "CF",
+    description: "[Publicación Demostrativa] Supervisión de recolección de frambuesas y moras, clasificación y empaque en El Hoyo.",
+    city: "El Hoyo",
+    province: "Chubut",
+    category: "Producción",
+    employmentType: "Por Temporada",
+    salary: "$630.000",
+    createdAt: "Hace 3 días",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+  {
+    id: "job-hoy-2",
+    title: "Despachante y Cajero/a de Parador (Demo)",
+    companyName: "Parador Comarcal Demo El Hoyo",
+    companyPhotoPlaceholder: "PC",
+    description: "[Publicación Demostrativa] Venta al paso de dulces regionales, alfajores artesanales y bebidas cordilleranas en El Hoyo.",
+    city: "El Hoyo",
+    province: "Chubut",
+    category: "Comercio",
+    employmentType: "Jornada Completa",
+    salary: "$660.000",
+    createdAt: "Hace 1 día",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+
+  // --- Epuyén ---
+  {
+    id: "job-epu-1",
+    title: "Mantenimiento General y Parquización (Demo)",
+    companyName: "Parque Recreativo Demo Epuyén",
+    companyPhotoPlaceholder: "PR",
+    description: "[Publicación Demostrativa] Limpieza de predios, cuidado de senderos y tareas básicas de pintura en complejo de Epuyén.",
+    city: "Epuyén",
+    province: "Chubut",
+    category: "Turismo",
+    employmentType: "Jornada Completa",
+    salary: "$640.000",
+    createdAt: "Hace 2 días",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+  {
+    id: "job-epu-2",
+    title: "Ayudante de Carpintería y Muebles Nativos (Demo)",
+    companyName: "Taller de Madera Demo Epuyén",
+    companyPhotoPlaceholder: "TM",
+    description: "[Publicación Demostrativa] Apoyo en lijado, encastre y acabado en aceite de piezas artesanales de madera en Epuyén.",
+    city: "Epuyén",
+    province: "Chubut",
+    category: "Producción",
+    employmentType: "Part-time",
+    salary: "$510.000",
+    createdAt: "Hoy",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+
+  // --- Cholila ---
+  {
+    id: "job-cho-1",
+    title: "Asistente de Campo y Tareas Rurales (Demo)",
+    companyName: "Establecimiento Rural Demo Cholila",
+    companyPhotoPlaceholder: "ER",
+    description: "[Publicación Demostrativa] Mantenimiento de alambrados, alimentación y asistencia de ganado en el valle de Cholila.",
+    city: "Cholila",
+    province: "Chubut",
+    category: "Producción",
+    employmentType: "Jornada Completa",
+    salary: "$680.000",
+    createdAt: "Hace 2 días",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+  {
+    id: "job-cho-2",
+    title: "Cocinero/a de Parador de Montaña (Demo)",
+    companyName: "Cocina del Valle Demo Cholila",
+    companyPhotoPlaceholder: "CV",
+    description: "[Publicación Demostrativa] Elaboración de minutas, carnes al horno de leña y guisados para turistas en Cholila.",
+    city: "Cholila",
+    province: "Chubut",
+    category: "Gastronomía",
+    employmentType: "Por Temporada",
+    salary: "$760.000",
+    createdAt: "Hoy",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+
+  // --- El Maitén ---
+  {
+    id: "job-mai-1",
+    title: "Mecánico/a de Mantenimiento y Soldadura (Demo)",
+    companyName: "Servicio Electromecánico Demo El Maitén",
+    companyPhotoPlaceholder: "SE",
+    description: "[Publicación Demostrativa] Reparaciones preventivas, uso de soldadora eléctrica y mantenimiento de herramientas en El Maitén.",
+    city: "El Maitén",
+    province: "Chubut",
+    category: "Servicios Técnicos",
+    employmentType: "Jornada Completa",
+    salary: "$790.000",
+    createdAt: "Hace 1 día",
+    contactEmail: "demo-empleos@esquelconectado.local"
+  },
+  {
+    id: "job-mai-2",
+    title: "Atención de Tienda de Recuerdos Ferroviarios (Demo)",
+    companyName: "Paseo de la Estación Demo El Maitén",
+    companyPhotoPlaceholder: "PE",
+    description: "[Publicación Demostrativa] Venta de folletos, libros históricos, recuerdos y atención a visitantes en El Maitén.",
+    city: "El Maitén",
+    province: "Chubut",
+    category: "Turismo",
+    employmentType: "Part-time",
+    salary: "$470.000",
+    createdAt: "Hoy",
+    contactEmail: "demo-empleos@esquelconectado.local"
   }
 ];
 
@@ -575,16 +914,30 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const dbService = {
   initStorage: () => {
     if (typeof window !== "undefined") {
+      const currentVersion = "3.1.0_comarca_demo_all_cities";
+      const savedVersion = localStorage.getItem("db_version");
       const existingEvents = localStorage.getItem("events");
       const existingJobs = localStorage.getItem("jobs");
 
-      const needsUpdate = !existingEvents ||
+      let parsedJobsCount = 0;
+      let parsedEventsCount = 0;
+      try {
+        parsedJobsCount = existingJobs ? JSON.parse(existingJobs).length : 0;
+        parsedEventsCount = existingEvents ? JSON.parse(existingEvents).length : 0;
+      } catch {
+        parsedJobsCount = 0;
+        parsedEventsCount = 0;
+      }
+
+      const needsUpdate =
+        savedVersion !== currentVersion ||
+        !existingEvents ||
         !existingJobs ||
-        !JSON.parse(existingEvents)[0]?.lat ||
-        !JSON.parse(existingJobs)[0]?.city ||
-        !JSON.parse(existingJobs)[0]?.category;
+        parsedJobsCount < 16 ||
+        parsedEventsCount < 16;
 
       if (needsUpdate) {
+        localStorage.setItem("db_version", currentVersion);
         localStorage.setItem("locations", JSON.stringify(initialLocations));
         localStorage.setItem("events", JSON.stringify(initialEvents));
         localStorage.setItem("jobs", JSON.stringify(initialJobs));
@@ -670,7 +1023,7 @@ export const dbService = {
   },
 
   getCommerces: async (filters?: { keyword?: string; category?: string; city?: string }): Promise<Location[]> => {
-    let locs = await dbService.getLocations();
+    const locs = await dbService.getLocations();
     let commerces = locs.filter(l => l.type === "commerce");
 
     if (filters) {
@@ -696,12 +1049,17 @@ export const dbService = {
 
   getEvents: async (filters?: { city?: string; category?: string; keyword?: string }): Promise<Event[]> => {
     await delay(300);
-    if (typeof window === "undefined") return initialEvents;
+    let events = typeof window === "undefined"
+      ? [...initialEvents]
+      : (JSON.parse(localStorage.getItem("events") || "[]") as Event[]);
 
-    let events = JSON.parse(localStorage.getItem("events") || "[]") as Event[];
     if (events.length === 0) {
-      events = initialEvents;
+      events = [...initialEvents];
+      if (typeof window !== "undefined") {
+        if (typeof window !== "undefined") {
       localStorage.setItem("events", JSON.stringify(events));
+    }
+      }
     }
 
     // Ciclo de Vida Automático: Filtrar y eliminar eventos vencidos
@@ -711,12 +1069,16 @@ export const dbService = {
         return new Date(ev.endDate).getTime() >= now;
       }
       if (ev.date) {
-        return new Date(ev.date).getTime() + 86400000 >= now;
+        const start = new Date(ev.date);
+        const endOfDay = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 23, 59, 59).getTime();
+        return endOfDay >= now;
       }
       return true;
     });
 
-    localStorage.setItem("events", JSON.stringify(events));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("events", JSON.stringify(events));
+    }
 
     // Aplicación de Filtros
     if (filters) {
@@ -759,8 +1121,16 @@ export const dbService = {
     city?: string;
   } | string): Promise<Job[]> => {
     await delay(250);
-    if (typeof window === "undefined") return initialJobs;
-    let jobs = JSON.parse(localStorage.getItem("jobs") || "[]") as Job[];
+    let jobs = typeof window === "undefined"
+      ? [...initialJobs]
+      : (JSON.parse(localStorage.getItem("jobs") || "[]") as Job[]);
+
+    if (jobs.length === 0) {
+      jobs = [...initialJobs];
+      if (typeof window !== "undefined") {
+        localStorage.setItem("jobs", JSON.stringify(jobs));
+      }
+    }
 
     if (typeof filters === "string") {
       return jobs.filter(j => j.city && j.city.toLowerCase() === filters.toLowerCase());

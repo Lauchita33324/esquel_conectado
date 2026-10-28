@@ -16,6 +16,32 @@ export default function MidSection() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+
+  // Fecha actual dinámica y timestamp de referencia estables para pureza de renderizado
+  const [today] = useState(() => new Date());
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth(); // 0..11
+  const todayDay = today.getDate();
+  const currentTimestamp = today.getTime();
+
+  const monthNames = [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+  ];
+  const currentMonthName = monthNames[currentMonth];
+
+  // Cálculo de días y alineación correcta de días de la semana
+  const daysInCurrentMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const firstDayOfWeek = new Date(currentYear, currentMonth, 1).getDay(); // 0 = Domingo, 1 = Lunes...
+  const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+  // Días previos de relleno para que el día 1 quede bajo su columna de la semana
+  const prevMonthPaddingDays = Array.from({ length: firstDayOfWeek }, (_, idx) => {
+    return daysInPrevMonth - firstDayOfWeek + 1 + idx;
+  });
+
+  const currentMonthDays = Array.from({ length: daysInCurrentMonth }, (_, idx) => idx + 1);
 
   // Estados para el mapa
   const [searchQuery, setSearchQuery] = useState("");
@@ -36,6 +62,43 @@ export default function MidSection() {
     setMapCenter([lat, lng]);
     setSelectedEvent(null);
   };
+
+  // Helper para eventos de un día específico del mes actual
+  const getEventsForDay = (day: number) => {
+    return events.filter(ev => {
+      if (!ev.date) return false;
+      const d = new Date(ev.date);
+      return (
+        d.getFullYear() === currentYear &&
+        d.getMonth() === currentMonth &&
+        d.getDate() === day
+      );
+    });
+  };
+
+  // Helper para verificar si un evento ya finalizó
+  const isPastEvent = (ev: Event) => {
+    const end = ev.endDate ? new Date(ev.endDate).getTime() : (new Date(ev.date).getTime() + 86400000);
+    return end < currentTimestamp;
+  };
+
+  // Helper para verificar si un evento es del día de hoy
+  const isEventToday = (ev: Event) => {
+    if (!ev.date) return false;
+    const d = new Date(ev.date);
+    return (
+      d.getFullYear() === currentYear &&
+      d.getMonth() === currentMonth &&
+      d.getDate() === todayDay
+    );
+  };
+
+  // Lista de eventos mostrados según selección de día o lista general de próximos
+  const displayedEvents = selectedDay !== null
+    ? getEventsForDay(selectedDay)
+    : events
+        .filter(ev => !isPastEvent(ev))
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   const handleSearchSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,52 +170,181 @@ export default function MidSection() {
 
         {/* Columna Izquierda: Calendario */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 flex flex-col p-4 sm:p-6 h-full">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-6 border-b border-slate-100 pb-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
-              Calendario de Eventos
-            </h2>
-            <span className="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-100 shrink-0">
-              Hoy en la Comarca
-            </span>
+          {/* Encabezado con Mes y Año actuales dinámicos */}
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-slate-100 pb-4">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
+                Calendario de Eventos
+              </h2>
+              <p className="text-xs font-semibold text-blue-700 capitalize mt-0.5">
+                {currentMonthName} {currentYear}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              {selectedDay !== null && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedDay(null)}
+                  className="text-xs font-semibold text-slate-500 hover:text-blue-700 underline cursor-pointer"
+                >
+                  Ver todos
+                </button>
+              )}
+              <span className="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-100 shrink-0">
+                Hoy: {todayDay} de {currentMonthName.slice(0, 3)}
+              </span>
+            </div>
           </div>
 
+          {/* Grilla del calendario con días de la semana y relleno dinámico */}
           <div className="grid grid-cols-7 gap-0.5 sm:gap-1 text-center mb-6">
             {["D", "L", "M", "M", "J", "V", "S"].map((day, idx) => (
-              <div key={`${day}-${idx}`} className="text-slate-600 font-semibold text-xs py-1">{day}</div>
-            ))}
-            <div className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-slate-400 text-xs sm:text-sm">28</div>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-slate-400 text-xs sm:text-sm">29</div>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-slate-400 text-xs sm:text-sm">30</div>
-            {[...Array(31)].map((_, i) => (
-              <div
-                key={i}
-                className={`rounded-lg sm:rounded-xl w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-xs sm:text-sm font-medium transition-colors
-                  ${i + 1 === 15 ? "bg-blue-700 text-white font-bold shadow-md cursor-pointer" : "text-slate-700 hover:bg-slate-100 cursor-pointer"}`}
-              >
-                {i + 1}
+              <div key={`${day}-${idx}`} className="text-slate-600 font-semibold text-xs py-1 select-none">
+                {day}
               </div>
             ))}
+
+            {/* Días previos del mes anterior */}
+            {prevMonthPaddingDays.map((pDay, idx) => (
+              <div
+                key={`prev-${idx}`}
+                className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-slate-300 text-xs sm:text-sm select-none"
+              >
+                {pDay}
+              </div>
+            ))}
+
+            {/* Días del mes corriente */}
+            {currentMonthDays.map((d) => {
+              const isToday = d === todayDay;
+              const isSelected = selectedDay === d;
+              const dayEvents = getEventsForDay(d);
+              const hasEvents = dayEvents.length > 0;
+
+              return (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => setSelectedDay(selectedDay === d ? null : d)}
+                  title={
+                    hasEvents
+                      ? `${dayEvents.length} evento(s) el ${d} de ${currentMonthName}`
+                      : `${d} de ${currentMonthName}`
+                  }
+                  className={`relative rounded-lg sm:rounded-xl w-8 h-8 sm:w-9 sm:h-9 mx-auto flex flex-col items-center justify-center text-xs sm:text-sm font-medium transition-all cursor-pointer ${
+                    isSelected
+                      ? "bg-blue-700 text-white font-bold shadow-md scale-105"
+                      : isToday
+                        ? "border-2 border-blue-600 text-blue-700 font-bold bg-blue-50/70"
+                        : hasEvents
+                          ? "text-slate-900 font-bold hover:bg-blue-50"
+                          : "text-slate-700 hover:bg-slate-100"
+                  }`}
+                >
+                  <span>{d}</span>
+                  {hasEvents && (
+                    <span
+                      className={`absolute bottom-0.5 sm:bottom-1 w-1.5 h-1.5 rounded-full ${
+                        isSelected ? "bg-white" : isToday ? "bg-blue-700" : "bg-sky-500"
+                      }`}
+                    />
+                  )}
+                </button>
+              );
+            })}
           </div>
 
-          <div className="flex-grow">
-            <h3 className="font-bold text-slate-700 mb-4">Eventos de Hoy</h3>
+          {/* Listado dinámico de eventos en su fecha correspondiente */}
+          <div className="flex-grow flex flex-col min-h-0">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-bold text-slate-800 text-sm sm:text-base">
+                {selectedDay !== null
+                  ? selectedDay === todayDay
+                    ? `Eventos de Hoy (${todayDay} de ${currentMonthName})`
+                    : `Eventos del ${selectedDay} de ${currentMonthName}`
+                  : "Próximos Eventos en la Comarca"}
+              </h3>
+              {selectedDay !== null && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedDay(null)}
+                  className="text-xs text-blue-700 hover:underline font-semibold"
+                >
+                  Mostrar próximos
+                </button>
+              )}
+            </div>
+
             {loadingEvents ? (
               <p className="text-sm text-slate-500">Cargando eventos...</p>
+            ) : displayedEvents.length === 0 ? (
+              <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-center my-auto">
+                <p className="text-sm text-slate-600 font-medium">
+                  No hay eventos programados para el {selectedDay} de {currentMonthName}.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSelectedDay(null)}
+                  className="mt-2 text-xs font-bold text-blue-700 hover:text-blue-800 underline cursor-pointer"
+                >
+                  Ver próximos eventos disponibles
+                </button>
+              </div>
             ) : (
-              <ul className="space-y-3">
-                {events.map((event) => (
-                  <li
-                    key={event.id}
-                    onClick={() => setSelectedEvent(event)}
-                    className="bg-slate-50 border border-slate-100 p-3 rounded-lg flex items-start cursor-pointer hover:bg-slate-100 transition-colors"
-                  >
-                    <div className="w-2 h-2 mt-1.5 rounded-full bg-blue-500 mr-3 flex-shrink-0"></div>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold text-blue-600 truncate">{event.title}</p>
-                      <p className="text-sm text-slate-500 truncate">{event.time} - {event.locationName}</p>
-                    </div>
-                  </li>
-                ))}
+              <ul className="space-y-2.5 overflow-y-auto max-h-[220px] pr-1">
+                {displayedEvents.map((event) => {
+                  const past = isPastEvent(event);
+                  const isToday = isEventToday(event);
+
+                  return (
+                    <li
+                      key={event.id}
+                      onClick={() => setSelectedEvent(event)}
+                      className="bg-slate-50 border border-slate-100 p-3 rounded-xl flex items-start cursor-pointer hover:bg-slate-100 hover:border-slate-200 transition-colors"
+                    >
+                      <div
+                        className={`w-2 h-2 mt-1.5 rounded-full mr-3 flex-shrink-0 ${
+                          past
+                            ? "bg-slate-400"
+                            : isToday
+                              ? "bg-emerald-500 animate-pulse"
+                              : "bg-blue-600"
+                        }`}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between gap-2 mb-0.5">
+                          <p className="font-semibold text-sm text-blue-700 truncate">
+                            {event.title}
+                          </p>
+                          <span
+                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
+                              past
+                                ? "bg-slate-100 text-slate-600"
+                                : isToday
+                                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                  : "bg-blue-50 text-blue-700 border border-blue-100"
+                            }`}
+                          >
+                            {past
+                              ? "Finalizado"
+                              : isToday
+                                ? "Hoy"
+                                : event.date
+                                  ? new Date(event.date).toLocaleDateString("es-AR", {
+                                      day: "numeric",
+                                      month: "short",
+                                    })
+                                  : "Próximo"}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 truncate">
+                          {event.time} &bull; {event.locationName}
+                          {event.city ? ` (${event.city})` : ""}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>
@@ -212,10 +404,43 @@ export default function MidSection() {
       >
         {selectedEvent && (
           <div className="space-y-4 text-slate-800">
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-4">
-              <p className="mb-2 text-sm"><strong>Horario:</strong> <span className="text-blue-700 font-semibold">{selectedEvent.time}</span></p>
-              <p className="mb-2 text-sm"><strong>Lugar:</strong> {selectedEvent.locationName}</p>
-              <p className="text-sm leading-relaxed"><strong>Detalle:</strong> {selectedEvent.description}</p>
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-4 space-y-2">
+              <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-200">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Detalles del Evento
+                </span>
+                <span
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                    isPastEvent(selectedEvent)
+                      ? "bg-slate-200 text-slate-700"
+                      : isEventToday(selectedEvent)
+                        ? "bg-emerald-100 text-emerald-800"
+                        : "bg-blue-100 text-blue-800"
+                  }`}
+                >
+                  {isPastEvent(selectedEvent)
+                    ? "Finalizado"
+                    : isEventToday(selectedEvent)
+                      ? "Hoy en Curso"
+                      : "Próximo"}
+                </span>
+              </div>
+              <p className="text-sm">
+                <strong>Fecha:</strong>{" "}
+                <span className="text-slate-800 capitalize">
+                  {selectedEvent.date
+                    ? new Date(selectedEvent.date).toLocaleDateString("es-AR", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })
+                    : "Fecha a confirmar"}
+                </span>
+              </p>
+              <p className="text-sm"><strong>Horario:</strong> <span className="text-blue-700 font-semibold">{selectedEvent.time}</span></p>
+              <p className="text-sm"><strong>Lugar:</strong> {selectedEvent.locationName}{selectedEvent.city ? ` (${selectedEvent.city})` : ""}</p>
+              <p className="text-sm leading-relaxed pt-1 border-t border-slate-200/60"><strong>Detalle:</strong> {selectedEvent.description}</p>
             </div>
             <div className="flex gap-3">
               <button

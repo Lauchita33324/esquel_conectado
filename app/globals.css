@@ -46,8 +46,8 @@ html.dark body,
 }
 
 .dark nav a,
-.dark nav button,
-.dark nav span {
+.dark nav button:not([class*="dark:text-amber"]),
+.dark nav span:not([class*="dark:text-amber"]) {
   color: #f8fafc !important;
 }
 
