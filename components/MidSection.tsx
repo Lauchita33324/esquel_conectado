@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { FcRating } from "react-icons/fc";
+import { Sparkles, Search, Calendar as CalendarIcon, MapPin, Compass, ChevronRight } from "lucide-react";
 import { dbService, Event } from "../services/database";
 import Modal from "./Modal";
 
@@ -169,16 +169,21 @@ export default function MidSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch md:min-h-[560px] lg:h-[600px] xl:h-[620px] max-h-[85vh]">
 
         {/* Columna Izquierda: Calendario */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 flex flex-col p-4 sm:p-6 w-full h-full">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800 flex flex-col p-4 sm:p-6 w-full h-full transition-colors">
           {/* Encabezado con Mes y Año actuales dinámicos */}
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-slate-100 pb-4">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
-                Calendario de Eventos
-              </h2>
-              <p className="text-xs font-semibold text-blue-700 capitalize mt-0.5">
-                {currentMonthName} {currentYear}
-              </p>
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-4 border-b border-slate-100 dark:border-slate-800 pb-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/50 flex items-center justify-center text-blue-600 dark:text-sky-400 shrink-0">
+                <CalendarIcon className="w-5 h-5 stroke-[2]" />
+              </div>
+              <div>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white leading-tight">
+                  Calendario de Eventos
+                </h2>
+                <p className="text-xs font-bold text-blue-600 dark:text-sky-400 capitalize mt-0.5">
+                  {currentMonthName} {currentYear}
+                </p>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               {selectedDay !== null && (
@@ -190,7 +195,7 @@ export default function MidSection() {
                   Ver todos
                 </button>
               )}
-              <span className="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-100 shrink-0">
+              <span className="text-xs font-bold px-2.5 py-1 bg-blue-50 dark:bg-slate-800 text-blue-700 dark:text-sky-300 rounded-full border border-blue-100 dark:border-slate-700 shrink-0">
                 Hoy: {todayDay} de {currentMonthName.slice(0, 3)}
               </span>
             </div>
@@ -351,35 +356,44 @@ export default function MidSection() {
         </div>
 
         {/* Columna Derecha: Mapa */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-6 w-full flex flex-col relative h-auto md:h-full">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-4 sm:p-6 w-full flex flex-col relative h-auto md:h-full transition-colors">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-3 sm:mb-4 flex-shrink-0">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Mapa de la Ciudad</h2>
-            <span className="text-xs font-semibold px-2.5 py-1 bg-sky-50 text-sky-700 rounded-full border border-sky-100 shrink-0">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-sky-50 dark:bg-sky-950/60 border border-sky-100 dark:border-sky-900/50 flex items-center justify-center text-sky-600 dark:text-sky-400 shrink-0">
+                <MapPin className="w-5 h-5 stroke-[2]" />
+              </div>
+              <div>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white leading-tight">Mapa de la Ciudad</h2>
+                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Puntos de interés, comercios y eventos</p>
+              </div>
+            </div>
+            <span className="text-xs font-bold px-2.5 py-1 bg-sky-50 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 rounded-full border border-sky-100 dark:border-sky-800 shrink-0 inline-flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               Pines en vivo
             </span>
           </div>
 
           <form onSubmit={handleSearchSubmit} className="mb-3 sm:mb-4 flex gap-2 flex-shrink-0 w-full">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar calle o lugar (ej: Sáenz Peña 12, Ameghino)..."
-              className="flex-grow min-w-0 w-full bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:bg-white transition-all text-xs sm:text-sm font-medium"
-            />
+            <div className="relative flex-grow">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscar calle o lugar (ej: Sáenz Peña 12, Ameghino)..."
+                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-3.5 pr-8 py-2 sm:py-2.5 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white dark:focus:bg-slate-900 transition-all text-xs sm:text-sm font-medium"
+              />
+            </div>
             <button
               type="submit"
               disabled={isSearching}
-              className="shrink-0 bg-blue-700 hover:bg-blue-800 text-white font-extrabold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 text-xs uppercase tracking-wide cursor-pointer active:scale-95 disabled:opacity-50"
+              className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 text-xs uppercase tracking-wide cursor-pointer active:scale-95 disabled:opacity-50"
             >
               {isSearching ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 <>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  BUSCAR
+                  <Search className="w-4 h-4 stroke-[2.5]" />
+                  <span>BUSCAR</span>
                 </>
               )}
             </button>
@@ -388,9 +402,9 @@ export default function MidSection() {
           <div className="relative w-full h-[320px] sm:h-[380px] md:h-auto md:flex-1 md:min-h-[380px] rounded-xl overflow-hidden border border-slate-200 z-0">
             <MapComponent center={mapCenter} searchQuery={searchQuery} searchMarker={searchMarker} />
 
-            <button className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-[400] bg-white/95 backdrop-blur-sm border border-slate-200 shadow-md rounded-xl px-2.5 py-1.5 sm:px-4 sm:py-2 flex items-center gap-1.5 sm:gap-2 hover:bg-slate-50 transition-colors pointer-events-auto">
-              <FcRating className="text-base sm:text-lg" />
-              <span className="font-bold text-slate-800 text-[11px] sm:text-xs">Puntos de Interés</span>
+            <button className="absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 z-[400] bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border border-slate-200 dark:border-slate-700 shadow-md rounded-xl px-2.5 py-1.5 sm:px-3.5 sm:py-2 flex items-center gap-1.5 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors pointer-events-auto">
+              <Compass className="w-4 h-4 text-blue-600 dark:text-sky-400 stroke-[2]" />
+              <span className="font-extrabold text-slate-800 dark:text-slate-200 text-[11px] sm:text-xs">Puntos de Interés</span>
             </button>
           </div>
         </div>

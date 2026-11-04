@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Esquel Conectado | Portal Comunitario, Laboral y Turístico",
   description:
-    "Punto de encuentro digital de la Comarca Andina y Esquel. Oportunidades laborales, eventos y turismo en un solo lugar.",
+    "Punto de encuentro digital de la Comarca Andina y Esquel. Oportunidades laborales, eventos, refugios, comercios y turismo en un solo lugar.",
 };
 
 export default function RootLayout({

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MapPin, Clock, DollarSign, MessageSquare } from "lucide-react";
+import { MapPin, Clock, DollarSign, MessageSquare, Search, Filter, Briefcase } from "lucide-react";
 import { dbService, Job } from "../services/database";
 import Modal from "./Modal";
 
@@ -121,20 +121,23 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
   return (
     <section id="empleos" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* 1. CAJA SUPERIOR DE FILTROS (Tono beige suave y diseño claro según context.md) */}
-      <div className="bg-[#faf7f2] border border-[#e8dfd2] rounded-2xl p-6 md:p-8 shadow-sm mb-12">
-        <div className="flex items-center justify-between mb-5 border-b border-[#e8dfd2]/80 pb-3">
-          <div className="flex items-center gap-2">
-            <svg className="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-            </svg>
-            <h2 className="font-bold text-slate-800 text-lg">
-              Filtros de Búsqueda Laboral
-            </h2>
+      <div className="bg-[#faf7f2] dark:bg-slate-900 border border-[#e8dfd2] dark:border-slate-800 rounded-2xl p-5 sm:p-6 md:p-7 shadow-sm mb-10 transition-colors">
+        <div className="flex items-center justify-between mb-5 border-b border-[#e8dfd2]/80 dark:border-slate-800 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center text-blue-700 dark:text-sky-400">
+              <Filter className="w-4 h-4 stroke-[2.2]" />
+            </div>
+            <div>
+              <h2 className="font-extrabold text-slate-900 dark:text-white text-base sm:text-lg">
+                Filtros de Búsqueda Laboral
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Encontrá ofertas en Esquel y la Comarca Andina</p>
+            </div>
           </div>
           {(keyword || category !== "Todas" || province !== "Todas" || city !== "Todas") && (
             <button
               onClick={handleClearFilters}
-              className="text-xs font-semibold text-blue-700 hover:text-blue-800 underline cursor-pointer"
+              className="text-xs font-bold text-blue-700 dark:text-sky-400 hover:underline cursor-pointer"
             >
               Limpiar filtros
             </button>
@@ -192,36 +195,32 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
           <div>
             <button
               type="submit"
-              className="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 text-sm uppercase tracking-wide cursor-pointer"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-2.5 px-6 rounded-xl shadow-xs hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 text-xs uppercase tracking-wide cursor-pointer"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              BUSCAR
+              <Search className="w-4 h-4 stroke-[2.5]" />
+              <span>BUSCAR</span>
             </button>
           </div>
         </form>
       </div>
 
       {/* 2. ENCABEZADO DE RESULTADOS Y BOTÓN DE PUBLICAR */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
             Ofertas de Empleo Disponibles
           </h2>
-          <p className="text-sm text-slate-600 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             {jobs.length} {jobs.length === 1 ? "vacante encontrada" : "vacantes encontradas"} en la Comarca
           </p>
         </div>
 
         <Link
           href="/nuevo-empleo"
-          className="inline-flex items-center justify-center gap-2 bg-white border-2 border-blue-700 text-blue-700 hover:bg-blue-50 font-bold px-5 py-2.5 rounded-xl shadow-sm text-sm transition-all"
+          className="inline-flex items-center justify-center gap-2 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-sky-300 hover:bg-blue-100 dark:hover:bg-blue-900/60 font-bold px-4 py-2.5 rounded-xl shadow-xs text-xs sm:text-sm transition-all"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-          </svg>
-          Publicar Vacante
+          <Briefcase className="w-4 h-4 stroke-[2.2]" />
+          <span>Publicar Vacante</span>
         </Link>
       </div>
 

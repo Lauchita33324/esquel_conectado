@@ -26,17 +26,17 @@ export default function Home() {
       </main>
 
       {/* Footer Institucional */}
-      <footer className="bg-white border-t border-slate-200 py-8 sm:py-10 mt-8 sm:mt-16">
+      <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 sm:py-10 mt-8 sm:mt-16 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
           <div className="flex flex-col">
-            <span className="font-extrabold text-lg text-blue-700">
-              Esquel <span className="text-sky-500 font-medium">Conectado</span>
+            <span className="font-extrabold text-lg text-blue-700 dark:text-sky-400">
+              Esquel <span className="text-sky-500 dark:text-sky-300 font-medium">Conectado</span>
             </span>
-            <span className="text-xs text-slate-600 font-medium mt-0.5">
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
               Plataforma digital para Esquel y la Comarca Andina del Paralelo 42
             </span>
           </div>
-          <p className="text-xs text-slate-600 font-medium">
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             &copy; {new Date().getFullYear()} Esquel Conectado. Todos los derechos reservados.
           </p>
         </div>
