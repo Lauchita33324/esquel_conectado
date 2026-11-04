@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MapPin, Clock, DollarSign, MessageSquare, Search, Filter, Briefcase } from "lucide-react";
+import { MapPin, Clock, DollarSign, MessageSquare, Search, Filter, Briefcase, AlertCircle, RefreshCw } from "lucide-react";
 import { dbService, Job } from "../services/database";
 import Modal from "./Modal";
 
@@ -13,6 +13,7 @@ interface JobBoardProps {
 export default function JobBoard({ initialCity }: JobBoardProps) {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Estados de filtros de búsqueda
   const [keyword, setKeyword] = useState("");
@@ -57,14 +58,21 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
   // Carga y filtrado de empleos
   const fetchJobs = async () => {
     setLoading(true);
-    const data = await dbService.getJobs({
-      keyword,
-      category,
-      province,
-      city: city !== "Todas" ? city : undefined,
-    });
-    setJobs(data);
-    setLoading(false);
+    setError(null);
+    try {
+      const data = await dbService.getJobs({
+        keyword,
+        category,
+        province,
+        city: city !== "Todas" ? city : undefined,
+      });
+      setJobs(data);
+    } catch (err) {
+      console.error("Error al cargar vacantes de empleo:", err);
+      setError("No se pudieron cargar las ofertas de empleo en este momento.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -87,7 +95,19 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
     setCategory("Todas");
     setProvince("Todas");
     setCity("Todas");
-    dbService.getJobs().then(data => setJobs(data));
+    setLoading(true);
+    setError(null);
+    dbService.getJobs()
+      .then(data => {
+        setJobs(data);
+      })
+      .catch(err => {
+        console.error("Error al restablecer filtros:", err);
+        setError("Ocurrió un error al cargar las ofertas.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleSendChatMessage = async (e: React.FormEvent) => {
@@ -211,7 +231,11 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
             Ofertas de Empleo Disponibles
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {jobs.length} {jobs.length === 1 ? "vacante encontrada" : "vacantes encontradas"} en la Comarca
+            {loading
+              ? "Cargando vacantes en la Comarca..."
+              : error
+                ? "No se pudieron obtener las vacantes"
+                : `${jobs.length} ${jobs.length === 1 ? "vacante encontrada" : "vacantes encontradas"} en la Comarca`}
           </p>
         </div>
 
@@ -230,13 +254,32 @@ export default function JobBoard({ initialCity }: JobBoardProps) {
           <div className="inline-block w-8 h-8 border-4 border-blue-700 border-t-transparent rounded-full animate-spin"></div>
           <p className="mt-3 text-slate-500 font-medium text-sm">Cargando vacantes laborales...</p>
         </div>
+      ) : error ? (
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-10 text-center border border-rose-200 dark:border-rose-900/50 shadow-sm max-w-xl mx-auto">
+          <div className="w-12 h-12 rounded-full bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-3">
+            <AlertCircle className="w-6 h-6 stroke-[2]" />
+          </div>
+          <p className="text-base font-bold text-slate-900 dark:text-white mb-1">
+            {error}
+          </p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-5">
+            Ocurrió un inconveniente al consultar las publicaciones de empleo.
+          </p>
+          <button
+            onClick={fetchJobs}
+            className="inline-flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-wide transition-colors cursor-pointer active:scale-95 shadow-xs"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Reintentar</span>
+          </button>
+        </div>
       ) : jobs.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 shadow-sm">
-          <p className="text-lg font-bold text-slate-800">No encontramos vacantes con estos filtros.</p>
-          <p className="text-sm text-slate-500 mt-1">Prueba seleccionando otra categoría o localidad comarcal.</p>
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-12 text-center border border-slate-200 dark:border-slate-800 shadow-sm">
+          <p className="text-lg font-bold text-slate-800 dark:text-white">No encontramos vacantes con estos filtros.</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Prueba seleccionando otra categoría o localidad comarcal.</p>
           <button
             onClick={handleClearFilters}
-            className="mt-4 bg-blue-700 text-white font-bold px-5 py-2 rounded-xl text-sm hover:bg-blue-800 transition-colors"
+            className="mt-4 bg-blue-700 text-white font-bold px-5 py-2 rounded-xl text-sm hover:bg-blue-800 transition-colors cursor-pointer"
           >
             Ver todas las ofertas
           </button>
