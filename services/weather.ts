@@ -46,6 +46,40 @@ export interface RoadCondition {
   lastUpdated: string;
 }
 
+export function buildDynamicForecast(
+  patterns: Array<{ icon: string; high: number; low: number; condition: string; rainProb: string }>
+): ForecastDay[] {
+  const now = new Date();
+  return patterns.map((p, idx) => {
+    const targetDate = new Date(now.getTime() + idx * 86400000);
+    const shortDay = new Intl.DateTimeFormat("es-AR", {
+      timeZone: "America/Argentina/Buenos_Aires",
+      weekday: "short",
+    }).format(targetDate);
+    const dayNum = new Intl.DateTimeFormat("es-AR", {
+      timeZone: "America/Argentina/Buenos_Aires",
+      day: "numeric",
+    }).format(targetDate);
+    const fullDay = new Intl.DateTimeFormat("es-AR", {
+      timeZone: "America/Argentina/Buenos_Aires",
+      weekday: "long",
+    }).format(targetDate);
+
+    const formattedShort = shortDay.charAt(0).toUpperCase() + shortDay.slice(1).replace(".", "");
+    const formattedFull = fullDay.charAt(0).toUpperCase() + fullDay.slice(1);
+
+    return {
+      day: idx === 0 ? "Hoy" : formattedFull,
+      date: `${formattedShort} ${dayNum}`,
+      icon: p.icon,
+      high: p.high,
+      low: p.low,
+      condition: p.condition,
+      rainProb: p.rainProb,
+    };
+  });
+}
+
 const mockWeatherCities: CityWeather[] = [
   {
     id: "w-esquel",
@@ -265,7 +299,7 @@ const mockRoads: RoadCondition[] = [
     type: "Paso Fronterizo",
     status: "Habilitado",
     description: "Operando con normalidad de 08:00 a 19:00 hs. Documentación personal y de vehículo al día.",
-    lastUpdated: "Hace 15 min"
+    lastUpdated: "Datos demostrativos (Horario habitual 08 a 19 hs)"
   },
   {
     id: "rc-2",
@@ -274,7 +308,7 @@ const mockRoads: RoadCondition[] = [
     type: "Acceso Cerro",
     status: "Precaución",
     description: "Transitable con precaución. Sombra en sectores altos. Portación obligatoria de cadenas.",
-    lastUpdated: "Hace 10 min"
+    lastUpdated: "Datos demostrativos de temporada"
   },
   {
     id: "rc-3",
@@ -283,7 +317,7 @@ const mockRoads: RoadCondition[] = [
     type: "Nacional",
     status: "Habilitado",
     description: "Tránsito fluido. Obras de mantenimiento preventivo en banquinas entre Km 1890 y 1910.",
-    lastUpdated: "Hace 30 min"
+    lastUpdated: "Datos de muestra de referencia comarcal"
   },
   {
     id: "rc-4",
@@ -292,7 +326,7 @@ const mockRoads: RoadCondition[] = [
     type: "Nacional",
     status: "Habilitado",
     description: "Asfalto en excelente estado, visibilidad óptima.",
-    lastUpdated: "Hace 5 min"
+    lastUpdated: "Datos de muestra de referencia comarcal"
   },
   {
     id: "rc-5",
@@ -301,7 +335,7 @@ const mockRoads: RoadCondition[] = [
     type: "Paso Fronterizo",
     status: "Habilitado",
     description: "Paso fronterizo habilitado de 08:00 a 20:00 hs.",
-    lastUpdated: "Hace 45 min"
+    lastUpdated: "Datos demostrativos (Horario habitual 08 a 20 hs)"
   },
   {
     id: "rc-6",
@@ -310,13 +344,24 @@ const mockRoads: RoadCondition[] = [
     type: "Provincial",
     status: "Precaución",
     description: "Camino de ripio consolidado. Respetar límites de velocidad de 40 km/h por fauna autóctona.",
-    lastUpdated: "Hace 1 hora"
+    lastUpdated: "Datos demostrativos de referencia"
   }
 ];
 
 export const weatherService = {
   getWeatherByCity: async (cityId?: string): Promise<CityWeather[]> => {
-    return mockWeatherCities;
+    return mockWeatherCities.map((cw) => ({
+      ...cw,
+      forecast: buildDynamicForecast(
+        cw.forecast.map((f) => ({
+          icon: f.icon,
+          high: f.high,
+          low: f.low,
+          condition: f.condition,
+          rainProb: f.rainProb,
+        }))
+      ),
+    }));
   },
 
   getRoadConditions: async (): Promise<RoadCondition[]> => {

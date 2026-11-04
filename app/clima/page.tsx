@@ -52,7 +52,7 @@ export default function ClimaPage() {
             Clima & Estado de Caminos
           </h1>
           <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base mt-1.5 font-medium max-w-3xl">
-            Pronóstico en tiempo real, estado del Centro de Esquí La Hoya y de los pasos fronterizos de la Comarca Andina.
+            Pronóstico orientativo, estado de referencia del Centro de Esquí La Hoya y pasos fronterizos de la Comarca Andina.
           </p>
         </div>
 
@@ -246,11 +246,11 @@ export default function ClimaPage() {
                     <Navigation className="w-4 h-4 text-blue-700 dark:text-sky-400 stroke-[2]" /> Estado de Rutas & Pasos Fronterizos
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-                    Información actualizada sobre transitabilidad en la Comarca Andina y pasos a Chile.
+                    Información demostrativa y de referencia sobre transitabilidad en la Comarca Andina y pasos a Chile.
                   </p>
                 </div>
-                <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800 self-start sm:self-auto">
-                  ● Actualizado hoy
+                <span className="text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 self-start sm:self-auto">
+                  ● Datos de referencia demostrativos
                 </span>
               </div>
 
